@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Test - HomeWatch</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .debug-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .debug-button { background: #007bff; color: white; padding: 10px 15px; margin: 5px; border: none; cursor: pointer; }
+        .debug-output { background: #f8f9fa; padding: 10px; margin: 10px 0; border-left: 4px solid #007bff; }
+        pre { background: #f1f1f1; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🔍 HomeWatch Debug Test</h1>
+    
+    <div class="debug-section">
+        <h2>1. Firebase Connection Test</h2>
+        <button class="debug-button" onclick="testFirebaseConnection()">Test Firebase</button>
+        <div id="firebase-result" class="debug-output"></div>
+    </div>
+
+    <div class="debug-section">
+        <h2>2. Authentication Test</h2>
+        <button class="debug-button" onclick="testAuth()">Check Auth State</button>
+        <div id="auth-result" class="debug-output"></div>
+    </div>
+
+    <div class="debug-section">
+        <h2>3. Firestore Posts Test</h2>
+        <button class="debug-button" onclick="testAllPosts()">Load All Posts</button>
+        <button class="debug-button" onclick="testUserPosts()">Load User Posts</button>
+        <div id="posts-result" class="debug-output"></div>
+    </div>
+
+    <div class="debug-section">
+        <h2>4. Profile Test</h2>
+        <button class="debug-button" onclick="testProfile()">Load Profile</button>
+        <button class="debug-button" onclick="testSaveProfile()">Test Save Profile</button>
+        <div id="profile-result" class="debug-output"></div>
+    </div>
+
+    <script type="module">
+        import { auth, db } from './js/firebase-config.js';
+        import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
+        import { collection, getDocs, query, where, orderBy, limit, doc, getDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
+
+        let currentUser = null;
+
+        // Monitor auth state
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            console.log('Auth state:', user ? `Logged in as ${user.email}` : 'Not logged in');
+        });
+
+        window.testFirebaseConnection = async () => {
+            const result = document.getElementById('firebase-result');
+            try {
+                result.innerHTML = `
+                    <strong>Firebase Status:</strong><br>
+                    Auth: ${auth ? '✅ Connected' : '❌ Not connected'}<br>
+                    Firestore: ${db ? '✅ Connected' : '❌ Not connected'}<br>
+                    Current User: ${currentUser ? currentUser.email : 'None'}
+                `;
+            } catch (error) {
+                result.innerHTML = `❌ Error: ${error.message}`;
+            }
+        };
+
+        window.testAuth = () => {
+            const result = document.getElementById('auth-result');
+            if (currentUser) {
+                result.innerHTML = `
+                    <strong>✅ User Authenticated:</strong><br>
+                    <pre>${JSON.stringify({
+                        uid: currentUser.uid,
+                        email: currentUser.email,
+                        displayName: currentUser.displayName
+                    }, null, 2)}</pre>
+                `;
+            } else {
+                result.innerHTML = '❌ No user authenticated. Please log in first.';
+            }
+        };
+
+        window.testAllPosts = async () => {
+            const result = document.getElementById('posts-result');
+            try {
+                const postsRef = collection(db, 'posts');
+                const q = query(postsRef, orderBy('timestamp', 'desc'), limit(10));
+                const snapshot = await getDocs(q);
+                
+                const posts = [];
+                snapshot.docs.forEach(doc => {
+                    posts.push({
+                        id: doc.id,
+                        ...doc.data()
+                    });
+                });
+
+                result.innerHTML = `
+                    <strong>📚 All Posts (${posts.length}):</strong><br>
+                    <pre>${JSON.stringify(posts, null, 2)}</pre>
+                `;
+            } catch (error) {
+                result.innerHTML = `❌ Error loading posts: ${error.message}`;
+            }
+        };
+
+        window.testUserPosts = async () => {
+            const result = document.getElementById('posts-result');
+            if (!currentUser) {
+                result.innerHTML = '❌ Please authenticate first';
+                return;
+            }
+
+            try {
+                const postsRef = collection(db, 'posts');
+                const q = query(
+                    postsRef, 
+                    where('authorId', '==', currentUser.uid),
+                    orderBy('timestamp', 'desc')
+                );
+                const snapshot = await getDocs(q);
+                
+                const userPosts = [];
+                snapshot.docs.forEach(doc => {
+                    userPosts.push({
+                        id: doc.id,
+                        ...doc.data()
+                    });
+                });
+
+                result.innerHTML = `
+                    <strong>👤 User Posts for ${currentUser.email} (${userPosts.length}):</strong><br>
+                    <strong>Searching for authorId:</strong> ${currentUser.uid}<br>
+                    <pre>${JSON.stringify(userPosts, null, 2)}</pre>
+                `;
+            } catch (error) {
+                result.innerHTML = `❌ Error loading user posts: ${error.message}`;
+            }
+        };
+
+        window.testProfile = async () => {
+            const result = document.getElementById('profile-result');
+            if (!currentUser) {
+                result.innerHTML = '❌ Please authenticate first';
+                return;
+            }
+
+            try {
+                const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+                if (userDoc.exists()) {
+                    result.innerHTML = `
+                        <strong>✅ Profile Found:</strong><br>
+                        <pre>${JSON.stringify(userDoc.data(), null, 2)}</pre>
+                    `;
+                } else {
+                    result.innerHTML = '❌ No profile document found';
+                }
+            } catch (error) {
+                result.innerHTML = `❌ Error loading profile: ${error.message}`;
+            }
+        };
+
+        window.testSaveProfile = async () => {
+            const result = document.getElementById('profile-result');
+            if (!currentUser) {
+                result.innerHTML = '❌ Please authenticate first';
+                return;
+            }
+
+            try {
+                const testData = {
+                    name: 'Test User Updated',
+                    location: 'Test Location',
+                    bio: 'Test bio updated at ' + new Date().toISOString()
+                };
+
+                await updateDoc(doc(db, 'users', currentUser.uid), testData);
+                result.innerHTML = `
+                    <strong>✅ Profile Update Test Successful:</strong><br>
+                    <pre>${JSON.stringify(testData, null, 2)}</pre>
+                `;
+            } catch (error) {
+                result.innerHTML = `❌ Error saving profile: ${error.message}`;
+            }
+        };
+    </script>
+</body>
+</html>
