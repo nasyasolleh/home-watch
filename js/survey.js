@@ -720,43 +720,6 @@ class SurveyManager {
         }
     }
 
-    // async viewSurveyResults(surveyId) {
-    //     const survey = this.surveys.find(s => s.id === surveyId);
-    //     if (!survey) return;
-
-    //     // Generate mock results
-    //     const results = this.generateMockResults(survey);
-    //     this.showResultsModal(survey, results);
-    // }
-
-    // generateMockResults(survey) {
-    //     const results = {};
-
-    //     survey.questions.forEach(question => {
-    //         if (question.type === 'single_choice') {
-    //             const votes = question.options.map(() => Math.floor(Math.random() * 100) + 10);
-    //             const total = votes.reduce((sum, v) => sum + v, 0);
-    //             results[question.id] = {
-    //                 type: 'choice',
-    //                 votes,
-    //                 total,
-    //                 percentages: votes.map(v => (v / total * 100).toFixed(1))
-    //             };
-    //         } else if (question.type === 'rating') {
-    //             const ratings = Array.from({length: question.scale}, () => Math.floor(Math.random() * 50) + 5);
-    //             const total = ratings.reduce((sum, r) => sum + r, 0);
-    //             const average = (ratings.reduce((sum, r, i) => sum + r * (i + 1), 0) / total).toFixed(1);
-    //             results[question.id] = {
-    //                 type: 'rating',
-    //                 ratings,
-    //                 total,
-    //                 average
-    //             };
-    //         }
-    //     });
-
-    //     return results;
-    // }
 
     generateRealResults(surveyId) {
         const allResponses = JSON.parse(localStorage.getItem('surveyResponses') || '{}');
@@ -2287,4 +2250,61 @@ console.log('📋 SurveyManager class is now available on window object');
 if (window.initializeSurveyManager && typeof window.initializeSurveyManager === 'function') {
     console.log('🔄 Triggering survey manager initialization...');
     setTimeout(() => window.initializeSurveyManager(), 100);
+}
+
+// Add this at the very end of your existing survey.js file
+
+// Enhanced initialization with results integration
+if (window.SurveyManager && !window.surveyManager) {
+  console.log('🔄 Initializing enhanced survey manager...');
+  
+  // Create enhanced survey manager
+  const originalInit = SurveyManager.prototype.init;
+  SurveyManager.prototype.init = async function() {
+    await originalInit.call(this);
+    
+    // Add results manager
+    if (window.SurveyResultsManager) {
+      this.resultsManager = new window.SurveyResultsManager(this);
+      console.log('✅ Results manager attached');
+    }
+  };
+
+  // Override updateResultCharts to use real data
+  const originalUpdateResultCharts = SurveyManager.prototype.updateResultCharts;
+  SurveyManager.prototype.updateResultCharts = function() {
+    if (this.resultsManager) {
+      this.resultsManager.updateResultsCharts();
+    } else {
+      originalUpdateResultCharts.call(this);
+    }
+  };
+
+  // Override survey submission to trigger results update
+  const originalSaveSurveyResponse = SurveyManager.prototype.saveSurveyResponse;
+  SurveyManager.prototype.saveSurveyResponse = function(surveyId, responses) {
+    originalSaveSurveyResponse.call(this, surveyId, responses);
+    
+    // Update results after saving
+    setTimeout(() => {
+      if (this.resultsManager) {
+        this.resultsManager.updateResultsCharts();
+      }
+    }, 100);
+  };
+
+  // Override vote handling to trigger results update
+  const originalHandleVote = SurveyManager.prototype.handleVote;
+  SurveyManager.prototype.handleVote = async function(button) {
+    const result = await originalHandleVote.call(this, button);
+    
+    // Update results after vote
+    setTimeout(() => {
+      if (this.resultsManager) {
+        this.resultsManager.updateResultsCharts();
+      }
+    }, 100);
+    
+    return result;
+  };
 }

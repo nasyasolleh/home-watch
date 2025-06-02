@@ -46,20 +46,6 @@
                         <h1>Surveys & Policy Feedback</h1>
                         <p>Your voice matters. Help shape Malaysia's affordable housing future through surveys and
                             community-driven policy ideas.</p>
-                        <div class="header-stats">
-                            <!-- <div class="stat-item">
-                                <span class="stat-number">3,247</span>
-                                <span class="stat-label">Active Participants</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">156</span>
-                                <span class="stat-label">Policy Ideas</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">4</span>
-                                <span class="stat-label">Active Surveys</span>
-                            </div> -->
-                        </div>
 
                         <!-- Debug: Force refresh button (can be removed in production) -->
                         <div style="margin-top: 10px;">
@@ -80,6 +66,11 @@
                     <button class="btn btn-primary gradient-btn" onclick="showSubmitIdeaModal()">
                         <i class="fas fa-lightbulb"></i>
                         <span>Submit Policy Idea</span>
+                    </button>
+                    <!-- Add this button next to your existing "Submit Policy Idea" button -->
+                    <button class="btn btn-outline glass-btn" onclick="refreshResults()">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>Refresh Results</span>
                     </button>
                 </div>
             </div>
@@ -680,6 +671,20 @@
 
         // Clear cache immediately when script runs
         clearSurveyCache();
+    </script>
+
+    <script>
+        // Add this to your existing script section
+        window.refreshResults = function () {
+            console.log('🔄 Force refreshing results...');
+
+            if (window.surveyManager && window.surveyManager.resultsManager) {
+                window.surveyManager.resultsManager.updateResultsCharts();
+                if (typeof window.surveyManager.showAlert === 'function') {
+                    window.surveyManager.showAlert('Results updated!', 'success');
+                }
+            }
+        };
     </script>
 
     <!-- Debug script for testing -->
