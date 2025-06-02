@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Real-time sentiment analytics and community platform for Malaysia's affordable housing policies">
+    <meta name="keywords" content="Malaysia, housing, sentiment analytics, PR1MA, affordable housing, community">
+    <meta name="author" content="HomeWatch">
+    <meta name="theme-color" content="#2563eb">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="images/icon-192.svg">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="HomeWatch">
+
+    <title>HomeWatch - Malaysia's Housing Sentiment Analytics</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" style="text-decoration: none;">
+                <div class="nav-logo">
+                    <i class="fas fa-home"></i>
+                    <span>HomeWatch</span>
+                </div>
+            </a>
+            <div class="nav-menu">
+
+                <a href="dashboard.html" class="nav-link active">Dashboard</a>
+                <a href="community.html" class="nav-link">Community</a>
+                <a href="survey.html" class="nav-link">Surveys</a>
+                <a href="resources.html" class="nav-link">Resources</a>
+                <a href="profile.html" class="nav-link profile">Profile</a>
+
+                <div class="auth-buttons">
+                    <button class="btn btn-outline" onclick="showLogin()">Login</button>
+                    <button class="btn btn-primary" onclick="showRegister()">Register</button>
+                </div>
+            </div>
+            <!-- <div class="nav-menu">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#features" class="nav-link">Features</a>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline" onclick="showLogin()">Login</button>
+                    <button class="btn btn-primary" onclick="showRegister()">Register</button>
+                </div>
+            </div> -->
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Understanding Malaysia's Housing Sentiment</h1>
+                <p>HomeWatch provides comprehensive analytics on affordable housing policies through social media
+                    sentiment analysis, community discussions, and data-driven insights.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary btn-large" onclick="showRegister()">Get Started</button>
+                    <button class="btn btn-outline btn-large" onclick="scrollToSection('about')">Learn More</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <h3>10K+</h3>
+                        <p>Social Posts Analyzed</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>500+</h3>
+                        <p>Community Members</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>15+</h3>
+                        <p>Housing Programs Tracked</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>About HomeWatch</h2>
+                <p>Bridging the gap between policy makers and citizens through data-driven insights</p>
+            </div>
+            <div class="about-grid">
+                <div class="about-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Sentiment Analysis</h3>
+                    <p>Real-time analysis of social media posts and news articles about housing policies</p>
+                </div>
+                <div class="about-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Community Engagement</h3>
+                    <p>Platform for citizens to discuss, vote, and share ideas about housing policies</p>
+                </div>
+                <div class="about-card">
+                    <i class="fas fa-calculator"></i>
+                    <h3>Financial Tools</h3>
+                    <p>Loan calculators and resources to help citizens make informed housing decisions</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Platform Features</h2>
+                <p>Everything you need to understand and engage with housing policies</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3>Analytics Dashboard</h3>
+                    <p>Comprehensive sentiment analysis from Twitter and news sources</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Community Discussion</h3>
+                    <p>Engage in meaningful discussions about housing policies</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-poll"></i>
+                    </div>
+                    <h3>Surveys & Polls</h3>
+                    <p>Participate in surveys and vote on housing-related topics</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Idea Submission</h3>
+                    <p>Submit and vote on new housing policy ideas</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3>Loan Calculator</h3>
+                    <p>Calculate monthly payments and loan details</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>Resources</h3>
+                    <p>Comprehensive guide to housing programs and FAQ</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <button class="close" onclick="closeModal('loginModal')" aria-label="Close login modal">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h2>Login to HomeWatch</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Login</button>
+                <p class="auth-switch">Don't have an account? <button type="button" class="link-button"
+                        onclick="switchToRegister()">Register here</button></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <button class="close" onclick="closeModal('registerModal')" aria-label="Close register modal">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h2>Join HomeWatch</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">Full Name</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerUsername">Username</label>
+                    <input type="text" id="registerUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerConfirmPassword">Confirm Password</label>
+                    <input type="password" id="registerConfirmPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Register</button>
+                <p class="auth-switch">Already have an account? <button type="button" class="link-button"
+                        onclick="switchToLogin()">Login here</button></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Install PWA Button -->
+    <button id="installButton" class="install-prompt" style="display: none;">
+        <i class="fas fa-download"></i> Install App
+    </button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>HomeWatch</h3>
+                    <p>Understanding Malaysia's housing sentiment through data and community engagement.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#features">Features</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: info@homewatch.my</p>
+                    <p>Phone: +60 3-1234 5678</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 HomeWatch. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <!-- Custom Scripts as ES6 modules -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/main.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+</body>
+
+</html>

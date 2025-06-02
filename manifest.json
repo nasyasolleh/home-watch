@@ -1,0 +1,33 @@
+{
+  "name": "HomeWatch - Malaysia Housing Sentiment Analytics",
+  "short_name": "HomeWatch",
+  "description": "Real-time sentiment analytics and community platform for Malaysia's affordable housing policies",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "images/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "images/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "social", "utilities"],
+  "screenshots": [
+    {
+      "src": "images/screenshot-540x720.svg",
+      "sizes": "540x720",
+      "type": "image/svg+xml",
+      "form_factor": "narrow"
+    }
+  ]
+}

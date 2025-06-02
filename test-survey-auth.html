@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Authentication Test - HomeWatch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+        .btn {
+            background: #023047;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn:hover { background: #034d66; }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .log {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Survey Authentication Test</h1>
+        
+        <div id="status" class="status info">
+            Testing survey authentication integration...
+        </div>
+        
+        <div class="test-section">
+            <h3>Authentication Tests</h3>
+            <button id="testAuth" class="btn">Test Authentication State</button>
+            <button id="simulateLogin" class="btn">Simulate User Login</button>
+            <button id="testVoting" class="btn">Test Voting (requires login)</button>
+            <button id="clearAuth" class="btn">Clear Authentication</button>
+        </div>
+        
+        <div class="test-section">
+            <h3>Test Results</h3>
+            <div id="testResults" class="log">Click a test button to see results...</div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Quick Polls (for testing)</h3>
+            <div id="quickPollsContainer">
+                <!-- Quick polls will be rendered here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Include required scripts -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/survey.js"></script>
+    <script src="js/survey-global.js"></script>
+
+    <script>
+        let testLog = '';
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            testLog += `[${timestamp}] ${message}\n`;
+            document.getElementById('testResults').textContent = testLog;
+            
+            // Update status
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+        }
+        
+        function clearLog() {
+            testLog = '';
+            document.getElementById('testResults').textContent = 'Log cleared...';
+        }
+        
+        // Wait for survey manager to load
+        function waitForSurveyManager() {
+            return new Promise((resolve) => {
+                if (window.surveyManager) {
+                    resolve(window.surveyManager);
+                } else {
+                    setTimeout(() => {
+                        waitForSurveyManager().then(resolve);
+                    }, 100);
+                }
+            });
+        }
+        
+        document.getElementById('testAuth').addEventListener('click', async () => {
+            log('Testing authentication state...', 'info');
+            
+            try {
+                await waitForSurveyManager();
+                
+                if (window.debugSurveyAuth) {
+                    window.debugSurveyAuth();
+                    log('✅ Authentication debug completed - check browser console for details', 'success');
+                } else {
+                    log('❌ debugSurveyAuth function not found', 'error');
+                }
+                
+                const currentUser = window.surveyManager.getCurrentUser();
+                if (currentUser) {
+                    log(`✅ User authenticated: ${currentUser.email || currentUser.name}`, 'success');
+                } else {
+                    log('❌ No authenticated user found', 'error');
+                }
+                
+            } catch (error) {
+                log(`❌ Error testing authentication: ${error.message}`, 'error');
+            }
+        });
+        
+        document.getElementById('simulateLogin').addEventListener('click', async () => {
+            log('Simulating user login...', 'info');
+            
+            try {
+                await waitForSurveyManager();
+                
+                if (window.simulateLogin) {
+                    window.simulateLogin();
+                    log('✅ User login simulated successfully', 'success');
+                } else {
+                    log('❌ simulateLogin function not found', 'error');
+                }
+                
+            } catch (error) {
+                log(`❌ Error simulating login: ${error.message}`, 'error');
+            }
+        });
+        
+        document.getElementById('testVoting').addEventListener('click', async () => {
+            log('Testing voting functionality...', 'info');
+            
+            try {
+                await waitForSurveyManager();
+                
+                const voteButtons = document.querySelectorAll('.vote-btn');
+                if (voteButtons.length > 0) {
+                    log(`Found ${voteButtons.length} vote buttons`, 'info');
+                    
+                    // Simulate clicking the first vote button
+                    const firstButton = voteButtons[0];
+                    log(`Clicking vote button for poll: ${firstButton.dataset.pollId}`, 'info');
+                    
+                    // Trigger the vote handler
+                    await window.surveyManager.handleVote(firstButton);
+                    
+                    log('✅ Vote attempt completed - check browser console for details', 'success');
+                } else {
+                    log('❌ No vote buttons found on page', 'error');
+                }
+                
+            } catch (error) {
+                log(`❌ Error testing voting: ${error.message}`, 'error');
+            }
+        });
+        
+        document.getElementById('clearAuth').addEventListener('click', () => {
+            log('Clearing authentication...', 'info');
+            
+            localStorage.removeItem('currentUser');
+            
+            if (window.authManager) {
+                window.authManager.currentUser = null;
+            }
+            
+            if (window.surveyManager) {
+                window.surveyManager.currentUser = null;
+                window.surveyManager.updateUserSpecificUI();
+            }
+            
+            log('✅ Authentication cleared', 'success');
+        });
+        
+        // Initialize when page loads
+        window.addEventListener('load', async () => {
+            try {
+                await waitForSurveyManager();
+                log('✅ Survey manager loaded successfully', 'success');
+                
+                // Render quick polls for testing
+                const container = document.getElementById('quickPollsContainer');
+                if (container && window.surveyManager.quickPolls) {
+                    window.surveyManager.renderQuickPolls();
+                    log(`✅ Rendered ${window.surveyManager.quickPolls.length} quick polls`, 'success');
+                }
+                
+            } catch (error) {
+                log(`❌ Error initializing: ${error.message}`, 'error');
+            }
+        });
+    </script>
+</body>
+</html>

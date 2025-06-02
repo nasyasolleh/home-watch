@@ -1,0 +1,6 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="120" height="120" fill="#8D99AE" rx="60"/>
+  <!-- User avatar icon -->
+  <circle cx="60" cy="45" r="18" fill="#FFB703"/>
+  <path d="M35 95C35 82 46 72 60 72S85 82 85 95V105H35V95Z" fill="#FFB703"/>
+</svg>

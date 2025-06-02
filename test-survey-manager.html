@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Survey Manager</title>
+</head>
+<body>
+    <h1>Survey Manager Test</h1>
+    <div id="test-results"></div>
+    <button onclick="testSurveyManager()">Test Survey Manager</button>
+    
+    <script>
+        console.log('🧪 Loading test page...');
+        
+        function testSurveyManager() {
+            console.log('🧪 Testing Survey Manager...');
+            const results = document.getElementById('test-results');
+            results.innerHTML = '<p>Testing...</p>';
+            
+            // Check if SurveyManager is available
+            if (window.SurveyManager) {
+                console.log('✅ SurveyManager is available');
+                results.innerHTML += '<p>✅ SurveyManager is available</p>';
+                
+                try {
+                    const manager = new window.SurveyManager();
+                    console.log('✅ SurveyManager instance created successfully');
+                    results.innerHTML += '<p>✅ SurveyManager instance created successfully</p>';
+                } catch (error) {
+                    console.error('❌ Error creating SurveyManager:', error);
+                    results.innerHTML += '<p>❌ Error creating SurveyManager: ' + error.message + '</p>';
+                }
+            } else {
+                console.error('❌ SurveyManager not available');
+                results.innerHTML += '<p>❌ SurveyManager not available</p>';
+            }
+            
+            // Check what's on window
+            const windowKeys = Object.keys(window).filter(key => key.includes('Survey') || key.includes('survey'));
+            console.log('🔍 Survey-related items on window:', windowKeys);
+            results.innerHTML += '<p>🔍 Survey-related items on window: ' + windowKeys.join(', ') + '</p>';
+        }
+        
+        // Load survey.js manually
+        console.log('📦 Loading survey.js...');
+        const script = document.createElement('script');
+        script.src = 'js/survey.js';
+        script.onload = function() {
+            console.log('✅ survey.js loaded');
+            setTimeout(testSurveyManager, 500);
+        };
+        script.onerror = function() {
+            console.error('❌ Failed to load survey.js');
+        };
+        document.head.appendChild(script);
+    </script>
+</body>
+</html>

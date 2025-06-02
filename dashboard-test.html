@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Test - HomeWatch</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .card { background: white; padding: 20px; margin: 20px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .chart-container { width: 100%; height: 400px; position: relative; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0; }
+        .stat-card { background: #3b82f6; color: white; padding: 20px; border-radius: 8px; text-align: center; }
+        .stat-value { font-size: 2em; font-weight: bold; }
+        .stat-label { opacity: 0.9; }
+        .loading { text-align: center; padding: 40px; color: #666; }
+        .error { background: #fee; color: #c00; padding: 20px; border-radius: 8px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>HomeWatch Dashboard - Test Integration</h1>
+        
+        <div id="loading" class="loading">Loading dashboard data...</div>
+        <div id="error" class="error" style="display: none;"></div>
+        
+        <div id="overview-stats" class="stats-grid" style="display: none;">
+            <!-- Overview stats will be populated here -->
+        </div>
+        
+        <div id="charts-container" style="display: none;">
+            <div class="card">
+                <h3>Sentiment Distribution</h3>
+                <div class="chart-container">
+                    <canvas id="sentimentChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>Location-Based Sentiment</h3>
+                <div class="chart-container">
+                    <canvas id="locationChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>Age Group Analysis</h3>
+                <div class="chart-container">
+                    <canvas id="ageChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/api-service.js"></script>
+    <script>
+        let charts = {};
+
+        async function initDashboard() {
+            try {
+                console.log('Initializing dashboard...');
+                
+                // Check if dependencies are loaded
+                if (!window.AppConfig) {
+                    throw new Error('AppConfig not loaded');
+                }
+                if (!window.apiService) {
+                    throw new Error('API Service not initialized');
+                }
+                
+                console.log('Loading dashboard data...');
+                const result = await window.apiService.getDashboardAnalytics();
+                
+                if (!result.success) {
+                    throw new Error(result.error || 'Failed to load dashboard data');
+                }
+                
+                const data = result.data;
+                console.log('Dashboard data loaded:', data);
+                
+                // Hide loading, show content
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('overview-stats').style.display = 'block';
+                document.getElementById('charts-container').style.display = 'block';
+                
+                // Populate overview stats
+                populateOverviewStats(data.overview);
+                
+                // Create charts
+                createSentimentChart(data.overview.sentiment_distribution);
+                createLocationChart(data.location_sentiment.chart_data);
+                createAgeChart(data.age_sentiment.chart_data);
+                
+                console.log('Dashboard initialized successfully');
+                
+            } catch (error) {
+                console.error('Dashboard initialization error:', error);
+                showError('Failed to load dashboard: ' + error.message);
+            }
+        }
+        
+        function populateOverviewStats(overview) {
+            const statsContainer = document.getElementById('overview-stats');
+            
+            const stats = [
+                { label: 'Total Responses', value: overview.total_responses, color: '#3b82f6' },
+                { label: 'Average Sentiment', value: overview.average_sentiment_score.toFixed(2), color: '#10b981' },
+                { label: 'Positive Responses', value: overview.sentiment_breakdown.positive, color: '#10b981' },
+                { label: 'Neutral Responses', value: overview.sentiment_breakdown.neutral, color: '#64748b' },
+                { label: 'Negative Responses', value: overview.sentiment_breakdown.negative, color: '#ef4444' }
+            ];
+            
+            statsContainer.innerHTML = stats.map(stat => `
+                <div class="stat-card" style="background: ${stat.color};">
+                    <div class="stat-value">${stat.value}</div>
+                    <div class="stat-label">${stat.label}</div>
+                </div>
+            `).join('');
+        }
+        
+        function createSentimentChart(sentimentData) {
+            const ctx = document.getElementById('sentimentChart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (charts.sentiment) {
+                charts.sentiment.destroy();
+            }
+            
+            charts.sentiment = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: sentimentData.labels,
+                    datasets: [{
+                        data: sentimentData.values,
+                        backgroundColor: ['#64748b', '#10b981', '#ef4444'],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+        
+        function createLocationChart(locationData) {
+            const ctx = document.getElementById('locationChart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (charts.location) {
+                charts.location.destroy();
+            }
+            
+            charts.location = new Chart(ctx, {
+                type: 'bar',
+                data: locationData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            stacked: true
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+        }
+        
+        function createAgeChart(ageData) {
+            const ctx = document.getElementById('ageChart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (charts.age) {
+                charts.age.destroy();
+            }
+            
+            charts.age = new Chart(ctx, {
+                type: 'bar',
+                data: ageData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            stacked: true
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+        }
+        
+        function showError(message) {
+            document.getElementById('loading').style.display = 'none';
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+        
+        // Initialize dashboard when page loads
+        window.addEventListener('load', () => {
+            setTimeout(initDashboard, 500);
+        });
+        
+        // Cleanup charts when page unloads
+        window.addEventListener('beforeunload', () => {
+            Object.values(charts).forEach(chart => chart.destroy());
+        });
+    </script>
+</body>
+</html>

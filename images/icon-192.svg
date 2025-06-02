@@ -1,0 +1,14 @@
+<svg width="192" height="192" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="192" height="192" fill="#023047" rx="24"/>
+  <g transform="translate(32, 32)">
+    <!-- House shape -->
+    <path d="M64 20L96 40V100H84V60H44V100H32V40L64 20Z" fill="#FFB703"/>
+    <!-- Watch/monitor circle -->
+    <circle cx="64" cy="80" r="24" fill="#8D99AE" stroke="#EDF2F4" stroke-width="3"/>
+    <!-- Eye in the center -->
+    <circle cx="64" cy="80" r="8" fill="#2B2D42"/>
+    <circle cx="66" cy="78" r="3" fill="#EDF2F4"/>
+    <!-- "HW" text -->
+    <text x="64" y="130" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#EDF2F4">HW</text>
+  </g>
+</svg>

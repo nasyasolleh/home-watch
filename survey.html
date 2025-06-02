@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Surveys - HomeWatch</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/survey.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" style="text-decoration: none;">
+                <div class="nav-logo">
+                    <i class="fas fa-home"></i>
+                    <span>HomeWatch</span>
+                </div>
+            </a>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="community.html" class="nav-link">Community</a>
+                <a href="survey.html" class="nav-link active">Surveys</a>
+                <a href="resources.html" class="nav-link">Resources</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline" onclick="authManager.logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Survey Content -->
+    <main class="survey-page">
+        <div class="container">
+            <!-- Survey Header -->
+            <div class="survey-header">
+                <div class="header-content">
+                    <div class="header-text">
+                        <h1>Surveys & Policy Feedback</h1>
+                        <p>Your voice matters. Help shape Malaysia's affordable housing future through surveys and
+                            community-driven policy ideas.</p>
+                        <div class="header-stats">
+                            <!-- <div class="stat-item">
+                                <span class="stat-number">3,247</span>
+                                <span class="stat-label">Active Participants</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">156</span>
+                                <span class="stat-label">Policy Ideas</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">4</span>
+                                <span class="stat-label">Active Surveys</span>
+                            </div> -->
+                        </div>
+
+                        <!-- Debug: Force refresh button (can be removed in production) -->
+                        <div style="margin-top: 10px;">
+                            <button id="forceRefreshBtn" class="btn btn-outline"
+                                style="font-size: 12px; padding: 4px 8px; display: none;"
+                                onclick="location.reload(true)">
+                                🔄 Force Refresh Scripts
+                            </button>
+                        </div>
+                    </div>
+                    <div class="header-visual">
+                        <div class="survey-icon">
+                            <i class="fas fa-poll"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary gradient-btn" onclick="showSubmitIdeaModal()">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>Submit Policy Idea</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Survey Navigation -->
+            <div class="survey-nav">
+                <div class="nav-tabs">
+                    <button class="nav-tab active" data-section="vote" onclick="showSection('vote')">
+                        <div class="tab-icon">
+                            <i class="fas fa-vote-yea"></i>
+                        </div>
+                        <div class="tab-content">
+                            <span class="tab-title">Active Surveys</span>
+                            <span class="tab-subtitle">Vote on current polls</span>
+                        </div>
+                        <div class="tab-badge">4</div>
+                    </button>
+                    <button class="nav-tab" data-section="ideas" onclick="showSection('ideas')">
+                        <div class="tab-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="tab-content">
+                            <span class="tab-title">Policy Ideas</span>
+                            <span class="tab-subtitle">Community suggestions</span>
+                        </div>
+                        <div class="tab-badge">156</div>
+                    </button>
+                    <button class="nav-tab" data-section="results" onclick="showSection('results')">
+                        <div class="tab-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="tab-content">
+                            <span class="tab-title">Results</span>
+                            <span class="tab-subtitle">View outcomes</span>
+                        </div>
+                        <div class="tab-badge">12</div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Vote Section -->
+            <div id="voteSection" class="survey-section active">
+                <!-- Quick Polls Section -->
+                <div class="section-header" style="margin-top: 0;">
+                    <div class="section-title">
+                        <h2>Quick Polls</h2>
+                        <span class="section-count">Vote now</span>
+                    </div>
+                    <p>Quick questions that help shape housing policy priorities</p>
+                </div>
+
+                <!-- Dynamic quick polls container -->
+                <div id="quickPollsContainer" class="quick-polls-grid">
+                    <!-- Quick polls will be loaded dynamically by JavaScript -->
+                </div>
+
+                <!-- Active Surveys Section -->
+                <div class="section-header" style="margin-top: 3rem;">
+                    <div class="section-title">
+                        <h2>Active Surveys</h2>
+                        <span class="section-count">4 surveys available</span>
+                    </div>
+                    <p>Participate in ongoing surveys about housing policies and make your voice heard</p>
+                </div>
+
+                <!-- Dynamic surveys container -->
+                <div id="surveysContainer" class="surveys-grid">
+                    <!-- Surveys will be loaded dynamically by JavaScript -->
+                </div>
+
+                <!-- Static Survey Cards -->
+                <div class="surveys-grid">
+                    <!-- Active Survey Cards -->
+                    <div class="survey-card premium-card">
+                        <div class="card-header">
+                            <div class="survey-status active">
+                                <i class="fas fa-circle"></i>
+                                <span>Active</span>
+                            </div>
+                            <div class="survey-deadline urgent">
+                                <i class="fas fa-clock"></i>
+                                <span>5 days left</span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h3>PR1MA Eligibility Criteria Review</h3>
+                            <p>Should the income ceiling for PR1MA be adjusted to reflect current economic conditions
+                                and inflation rates?</p>
+                            <div class="survey-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 73%"></div>
+                                </div>
+                                <span class="progress-text">73% participation goal</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="survey-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>1,247 votes</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>3 min</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-chart-pie"></i>
+                                    <span>Multiple choice</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary survey-btn" onclick="takeSurvey('pr1ma-eligibility')">
+                                <span>Take Survey</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="survey-card">
+                        <div class="card-header">
+                            <div class="survey-status active">
+                                <i class="fas fa-circle"></i>
+                                <span>Active</span>
+                            </div>
+                            <div class="survey-deadline">
+                                <i class="fas fa-clock"></i>
+                                <span>12 days left</span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h3>MyFirst Home Scheme Enhancement</h3>
+                            <p>What improvements would make the MyFirst Home scheme more accessible to young
+                                professionals and first-time buyers?</p>
+                            <div class="survey-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 45%"></div>
+                                </div>
+                                <span class="progress-text">45% participation goal</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="survey-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>892 votes</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>5 min</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-list"></i>
+                                    <span>Rating scale</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary survey-btn" onclick="takeSurvey('myfirst-enhancement')">
+                                <span>Take Survey</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="survey-card">
+                        <div class="card-header">
+                            <div class="survey-status active">
+                                <i class="fas fa-circle"></i>
+                                <span>Active</span>
+                            </div>
+                            <div class="survey-deadline">
+                                <i class="fas fa-clock"></i>
+                                <span>8 days left</span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Public Transport Integration</h3>
+                            <p>How important is proximity to public transport when selecting affordable housing
+                                locations in urban areas?</p>
+                            <div class="survey-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 89%"></div>
+                                </div>
+                                <span class="progress-text">89% participation goal</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="survey-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>2,156 votes</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>2 min</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-star"></i>
+                                    <span>Quick poll</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary survey-btn" onclick="takeSurvey('transport-integration')">
+                                <span>Take Survey</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="survey-card">
+                        <div class="card-header">
+                            <div class="survey-status active">
+                                <i class="fas fa-circle"></i>
+                                <span>Active</span>
+                            </div>
+                            <div class="survey-deadline">
+                                <i class="fas fa-clock"></i>
+                                <span>15 days left</span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Digital Application Process</h3>
+                            <p>Rate your experience with online housing scheme applications and suggest improvements for
+                                better user experience.</p>
+                            <div class="survey-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 32%"></div>
+                                </div>
+                                <span class="progress-text">32% participation goal</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="survey-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>634 votes</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>4 min</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-comment"></i>
+                                    <span>Open feedback</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary survey-btn" onclick="takeSurvey('digital-process')">
+                                <span>Take Survey</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ideas Section -->
+            <div id="ideasSection" class="survey-section">
+                <div class="section-header">
+                    <h2>Community Ideas</h2>
+                    <p>Innovative policy suggestions from the community</p>
+                </div>
+
+                <div class="ideas-filter">
+                    <button class="filter-btn active" data-filter="approved">Approved Ideas</button>
+                    <button class="filter-btn" data-filter="popular">Most Popular</button>
+                    <button class="filter-btn" data-filter="recent">Most Recent</button>
+                </div>
+
+                <div id="policyIdeasContainer" class="policy-ideas-container">
+                    <!-- Policy ideas will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="resultsSection" class="survey-section">
+                <div class="section-header">
+                    <h2>Survey Results</h2>
+                    <p>Insights from completed surveys</p>
+                </div>
+
+                <div class="results-grid">
+                    <div class="result-card">
+                        <h3>Housing Affordability Index</h3>
+                        <div class="result-visual">
+                            <canvas id="affordabilityChart"></canvas>
+                        </div>
+                        <div class="result-summary">
+                            <p><strong>Key Finding:</strong> 73% of respondents find current housing prices unaffordable
+                            </p>
+                            <small>Based on 3,247 responses • Completed Dec 2024</small>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <h3>Preferred Housing Schemes</h3>
+                        <div class="result-visual">
+                            <canvas id="schemesChart"></canvas>
+                        </div>
+                        <div class="result-summary">
+                            <p><strong>Key Finding:</strong> PR1MA remains the most preferred scheme among young
+                                families</p>
+                            <small>Based on 2,891 responses • Completed Nov 2024</small>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <h3>Location Preferences</h3>
+                        <div class="result-visual">
+                            <canvas id="locationChart"></canvas>
+                        </div>
+                        <div class="result-summary">
+                            <p><strong>Key Finding:</strong> 68% prioritize proximity to workplace over price</p>
+                            <small>Based on 4,156 responses • Completed Oct 2024</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Submit Idea Modal -->
+    <div id="submitIdeaModal" class="modal">
+        <div class="modal-content large">
+            <span class="close" onclick="closeModal('submitIdeaModal')">&times;</span>
+            <h2>Submit Policy Idea</h2>
+            <form id="submitIdeaForm">
+                <div class="form-group">
+                    <label for="ideaTitle">Idea Title</label>
+                    <input type="text" id="ideaTitle" name="ideaTitle"
+                        placeholder="Brief, descriptive title for your idea" required>
+                </div>
+                <div class="form-group">
+                    <label for="ideaCategory">Category</label>
+                    <select id="ideaCategory" name="ideaCategory" required>
+                        <option value="">Select category</option>
+                        <option value="eligibility">Eligibility Criteria</option>
+                        <option value="application">Application Process</option>
+                        <option value="financing">Financing & Loans</option>
+                        <option value="location">Location & Development</option>
+                        <option value="maintenance">Maintenance & Management</option>
+                        <option value="digital">Digital Innovation</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="ideaDescription">Detailed Description</label>
+                    <textarea id="ideaDescription" name="ideaDescription" rows="6"
+                        placeholder="Explain your idea in detail, including the problem it solves and how it could be implemented..."
+                        required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="ideaBenefits">Expected Benefits</label>
+                    <textarea id="ideaBenefits" name="ideaBenefits" rows="3"
+                        placeholder="What positive impact would this idea have on housing policies or citizens?"
+                        required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline"
+                        onclick="closeModal('submitIdeaModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit Idea</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Survey Modal -->
+    <div id="surveyModal" class="modal">
+        <div class="modal-content large">
+            <span class="close" onclick="closeModal('surveyModal')">&times;</span>
+            <div id="surveyContent">
+                <!-- Survey content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+
+    <script>
+        // Dynamic script loader with aggressive cache busting
+        let scriptsLoaded = false; // Add flag to prevent duplicate loading
+        let loadingInProgress = false; // Add flag to prevent concurrent loading
+
+        function loadScript(src, isModule = false) {
+            return new Promise((resolve, reject) => {
+                // Check if script with this base name is already loaded
+                const baseName = src.split('?')[0].split('/').pop();
+                const existingScript = document.querySelector(`script[src*="${baseName}"]`);
+                if (existingScript && !src.includes('nocache')) {
+                    console.log(`📝 Script ${baseName} already loaded, skipping`);
+                    resolve();
+                    return;
+                }
+
+                const script = document.createElement('script');
+                const timestamp = Date.now() + Math.random();
+
+                script.src = src + (src.includes('?') ? '&' : '?') + 't=' + timestamp;
+                script.onload = resolve;
+                script.onerror = reject;
+
+                if (isModule) {
+                    script.type = 'module';
+                }
+
+                // Force no cache
+                script.setAttribute('crossorigin', 'anonymous');
+
+                document.head.appendChild(script);
+            });
+        }
+
+        // Load scripts sequentially to avoid dependency issues
+        async function loadAllScripts() {
+            if (loadingInProgress) {
+                console.log('🔄 Script loading already in progress, skipping...');
+                return;
+            }
+
+            if (scriptsLoaded && window.takeSurvey && window.showSection && window.closeModal) {
+                console.log('✅ Scripts already loaded and functions available, skipping...');
+                return;
+            }
+
+            loadingInProgress = true;
+
+            try {
+                console.log('Starting script loading process...');
+
+                // Only load core scripts if not already loaded
+                if (!window.AppConfig) {
+                    await loadScript('js/config.js');
+                    console.log('Config loaded');
+                }
+
+                if (!window.ErrorHandler) {
+                    await loadScript('js/utils.js');
+                    console.log('Utils loaded');
+                }
+
+                // Always load survey.js to ensure SurveyManager is available
+                await loadScript('js/survey.js?nocache=' + Date.now());
+                console.log('Survey loaded');
+
+                // Always reload survey-global.js with cache busting for function definitions
+                const globalScript = document.createElement('script');
+                globalScript.src = 'js/survey-global.js?nocache=' + Date.now() + '&rand=' + Math.random();
+                globalScript.setAttribute('crossorigin', 'anonymous');
+
+                // Force reload by removing from cache
+                if ('caches' in window) {
+                    try {
+                        const cacheNames = await caches.keys();
+                        for (const cacheName of cacheNames) {
+                            const cache = await caches.open(cacheName);
+                            await cache.delete(new Request(globalScript.src));
+                        }
+                    } catch (e) {
+                        console.log('Cache clearing failed, continuing...');
+                    }
+                }
+
+                document.head.appendChild(globalScript);
+
+                await new Promise((resolve, reject) => {
+                    globalScript.onload = resolve;
+                    globalScript.onerror = reject;
+                });
+                console.log('Survey-global loaded');
+
+                // Load Firebase and auth scripts only if not loaded
+                if (!window.firebase && !document.querySelector('script[src*="firebase-config"]')) {
+                    await loadScript('js/firebase-config.js', true);
+                    console.log('Firebase config loaded');
+
+                    await loadScript('js/auth.js', true);
+                    console.log('Auth loaded');
+
+                    await loadScript('js/main.js', true);
+                    console.log('Main loaded');
+                }
+
+                console.log('All scripts loaded successfully');
+                scriptsLoaded = true;
+
+                // Verify global functions are available
+                setTimeout(() => {
+                    console.log('Checking global functions:');
+                    console.log('takeSurvey:', typeof window.takeSurvey);
+                    console.log('showSection:', typeof window.showSection);
+                    console.log('closeModal:', typeof window.closeModal);
+                }, 100);
+
+            } catch (error) {
+                console.error('Error loading scripts:', error);
+                // Fallback: force a hard reload if scripts fail to load
+                if (confirm('Scripts failed to load. Would you like to refresh the page?')) {
+                    location.reload(true);
+                }
+            } finally {
+                loadingInProgress = false;
+            }
+        }
+
+        // Force script loading on every page load, regardless of cache
+        function forceLoadScripts() {
+            // Only clear functions if we're reloading due to missing functions
+            if (!window.takeSurvey || !window.showSection || !window.closeModal) {
+                console.log('🔄 Clearing existing global functions for fresh load');
+                delete window.takeSurvey;
+                delete window.showSection;
+                delete window.closeModal;
+                delete window.showSubmitIdeaModal;
+                delete window.showAllIdeas;
+                delete window.shareIdea;
+            }
+
+            // Always load scripts fresh
+            loadAllScripts();
+        }
+
+        // Start loading when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', forceLoadScripts);
+        } else {
+            forceLoadScripts();
+        }
+
+        // Also run on page show (handles back/forward cache) but only if functions are missing
+        window.addEventListener('pageshow', function (event) {
+            if (!window.takeSurvey || !window.showSection || !window.closeModal) {
+                console.log('📄 Page show event triggered, forcing script reload');
+                forceLoadScripts();
+            }
+        });
+    </script>
+
+    <!-- Immediate execution script to bypass HTML caching -->
+    <script>
+        (function () {
+            console.log('🚀 Immediate execution script running at:', Date.now());
+
+            // Force execution of our script loader even if HTML is cached
+            if (!window.scriptLoaderExecuted) {
+                window.scriptLoaderExecuted = true;
+                console.log('🔧 Triggering manual script loading');
+
+                // Check if our functions exist, if not, force load
+                setTimeout(() => {
+                    if (!window.takeSurvey || !window.showSection || !window.closeModal) {
+                        console.log('❌ Global functions missing, forcing script reload');
+
+                        // Show the manual refresh button as a backup
+                        const refreshBtn = document.getElementById('forceRefreshBtn');
+                        if (refreshBtn) {
+                            refreshBtn.style.display = 'inline-block';
+                            refreshBtn.textContent = '🔄 Scripts Failed - Click to Refresh';
+                        }
+
+                        // Try to trigger the existing loader
+                        if (typeof forceLoadScripts === 'function') {
+                            forceLoadScripts();
+                        } else {
+                            // Fallback: hard reload if all else fails
+                            console.log('💥 All else failed, triggering hard reload');
+                            location.reload(true);
+                        }
+                    } else {
+                        console.log('✅ Global functions available:', {
+                            takeSurvey: typeof window.takeSurvey,
+                            showSection: typeof window.showSection,
+                            closeModal: typeof window.closeModal
+                        });
+                    }
+                }, 100);
+            }
+        })();
+    </script>
+
+    <script>
+        // Force clear service worker cache for survey files
+        async function clearSurveyCache() {
+            if ('serviceWorker' in navigator && 'caches' in window) {
+                try {
+                    console.log('🧹 Clearing service worker cache for survey files...');
+                    const cacheNames = await caches.keys();
+                    for (const cacheName of cacheNames) {
+                        const cache = await caches.open(cacheName);
+                        // Clear survey.html and related JS files from cache
+                        await cache.delete('/survey.html');
+                        await cache.delete('/js/survey-global.js');
+                        await cache.delete('/js/survey.js');
+                        await cache.delete('/js/config.js');
+                        await cache.delete('/js/utils.js');
+                    }
+                    console.log('✅ Service worker cache cleared for survey files');
+                } catch (error) {
+                    console.log('⚠️ Failed to clear service worker cache:', error);
+                }
+            }
+        }
+
+        // Clear cache immediately when script runs
+        clearSurveyCache();
+    </script>
+
+    <!-- Debug script for testing -->
+    <script src="debug-survey.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - HomeWatch</title>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/profile.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Firebase SDK -->
+    <!-- No longer need script tags here as we're using ES6 modules -->
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" style="text-decoration: none;">
+                <div class="nav-logo">
+                    <i class="fas fa-home"></i>
+                    <span>HomeWatch</span>
+                </div>
+            </a>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="community.html" class="nav-link">Community</a>
+                <a href="survey.html" class="nav-link">Surveys</a>
+                <a href="resources.html" class="nav-link">Resources</a>
+                <a href="profile.html" class="nav-link active">Profile</a>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline" id="logoutBtn">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="profile-container">
+            <!-- Profile Header -->
+            <section class="profile-header">
+                <div class="profile-banner">
+                    <div class="banner-image" id="profileBanner">
+                        <!-- Background image will be set via JavaScript -->
+                    </div>
+                    <button class="edit-banner-btn" id="editBannerBtn" title="Change Banner">
+                        <i class="fas fa-camera"></i>
+                    </button>
+                </div>
+
+                <div class="profile-info">
+                    <div class="profile-avatar-section">
+                        <div class="profile-avatar" id="profileAvatar">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjOEQ5OUFFIi8+Cjx0ZXh0IHg9IjYwIiB5PSI2OCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+VXNlcjwvdGV4dD4KPC9zdmc+"
+                                alt="Profile Picture" id="avatarImage">
+                            <button class="edit-avatar-btn" id="editAvatarBtn" title="Change Profile Picture">
+                                <i class="fas fa-camera"></i>
+                            </button>
+                        </div>
+
+                        <div class="profile-details">
+                            <div class="profile-name-section">
+                                <h1 class="profile-name" id="profileName">John Doe</h1>
+                                <button class="edit-profile-btn" id="editProfileBtn">
+                                    <i class="fas fa-edit"></i> Edit Profile
+                                </button>
+                                <a id="admin_button" href="/admin.html" target="_blank" rel="noopener noreferer" style="text-decoration: none; display: none;">
+                                    <button class="edit-profile-btn" id="editProfileBtn">
+                                        <i class="fas fa-tachometer"></i> Dashboard
+                                    </button>
+                                </a>
+                            </div>
+
+                            <div class="profile-meta">
+                                <span class="profile-location" id="profileLocation">
+                                    <i class="fas fa-map-marker-alt"></i> Kuala Lumpur, Malaysia
+                                </span>
+                                <span class="profile-join-date" id="profileJoinDate">
+                                    <i class="fas fa-calendar"></i> Member since January 2024
+                                </span>
+                            </div>
+
+                            <p class="profile-bio" id="profileBio">
+                                Passionate about affordable housing and community development.
+                                Looking to make homeownership accessible for everyone in Malaysia.
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Navigation -->
+            <section class="profile-navigation">
+                <nav class="profile-nav">
+                    <button class="profile-nav-btn active" data-tab="posts">
+                        <i class="fas fa-comments"></i> Posts
+                    </button>
+                    <button class="profile-nav-btn" data-tab="settings">
+                        <i class="fas fa-cog"></i> Settings
+                    </button>
+                </nav>
+            </section>
+
+            <!-- Profile Content -->
+            <section class="profile-content">
+                <!-- Overview Tab -->
+                <div class="profile-tab" id="overview-tab">
+                    <div class="overview-grid">
+                        <!-- Activity Summary -->
+                        <div class="overview-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-line"></i> Activity Summary</h3>
+                            </div>
+                            <div class="card-content">
+                                <canvas id="activityChart" width="400" height="200"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Recent Activity -->
+                        <div class="overview-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-clock"></i> Recent Activity</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="activity-timeline" id="recentActivity">
+                                    <!-- Activity items will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Engagement Stats -->
+                        <div class="overview-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-thumbs-up"></i> Engagement</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="engagement-stats">
+                                    <div class="engagement-item">
+                                        <span class="engagement-value" id="likesReceived">247</span>
+                                        <span class="engagement-label">Likes Received</span>
+                                    </div>
+                                    <div class="engagement-item">
+                                        <span class="engagement-value" id="commentsReceived">89</span>
+                                        <span class="engagement-label">Comments</span>
+                                    </div>
+                                    <div class="engagement-item">
+                                        <span class="engagement-value" id="sharesReceived">34</span>
+                                        <span class="engagement-label">Shares</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Achievements -->
+                        <div class="overview-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-trophy"></i> Achievements</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="achievements-grid" id="achievementsList">
+                                    <!-- Achievements will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Tab -->
+                <div class="profile-tab" id="activity-tab">
+                    <div class="activity-filters">
+                        <select id="activityFilter">
+                            <option value="all">All Activity</option>
+                            <option value="posts">Posts</option>
+                            <option value="comments">Comments</option>
+                            <option value="votes">Votes</option>
+                            <option value="surveys">Surveys</option>
+                        </select>
+
+                        <select id="activityPeriod">
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="year">This Year</option>
+                            <option value="all">All Time</option>
+                        </select>
+                    </div>
+
+                    <div class="activity-list" id="activityList">
+                        <!-- Activity items will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Posts Tab -->
+                <div class="profile-tab active" id="posts-tab">
+                    <div class="posts-header">
+                        <h3>My Posts</h3>
+                        <div class="posts-filters">
+                            <select id="postsFilter">
+                                <option value="all">All Posts</option>
+                                <option value="popular">Most Popular</option>
+                                <option value="recent">Most Recent</option>
+                                <option value="discussions">Discussions</option>
+                                <option value="questions">Questions</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="posts-grid" id="userPosts">
+                        <!-- User posts will be populated by JavaScript -->
+                    </div>
+
+                </div>
+
+                <!-- Surveys Tab -->
+                <div class="profile-tab" id="surveys-tab">
+                    <div class="surveys-header">
+                        <h3>Survey Participation</h3>
+                        <div class="surveys-stats">
+                            <div class="survey-stat">
+                                <span class="stat-value">12</span>
+                                <span class="stat-label">Completed</span>
+                            </div>
+                            <div class="survey-stat">
+                                <span class="stat-value">3</span>
+                                <span class="stat-label">In Progress</span>
+                            </div>
+                            <div class="survey-stat">
+                                <span class="stat-value">2</span>
+                                <span class="stat-label">Created</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="surveys-content">
+                        <div class="surveys-section">
+                            <h4>Completed Surveys</h4>
+                            <div class="surveys-list" id="completedSurveys">
+                                <!-- Completed surveys will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <div class="surveys-section">
+                            <h4>Created Surveys</h4>
+                            <div class="surveys-list" id="createdSurveys">
+                                <!-- Created surveys will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bookmarks Tab -->
+                <div class="profile-tab" id="bookmarks-tab">
+                    <div class="bookmarks-header">
+                        <h3>Saved Items</h3>
+                        <div class="bookmarks-filters">
+                            <button class="bookmark-filter active" data-type="all">All</button>
+                            <button class="bookmark-filter" data-type="posts">Posts</button>
+                            <button class="bookmark-filter" data-type="programs">Programs</button>
+                            <button class="bookmark-filter" data-type="resources">Resources</button>
+                        </div>
+                    </div>
+
+                    <div class="bookmarks-grid" id="bookmarksGrid">
+                        <!-- Bookmarked items will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Settings Tab -->
+                <div class="profile-tab" id="settings-tab">
+                    <div class="settings-container">
+                        <div class="settings-section">
+                            <h3>Profile Settings</h3>
+                            <form id="profileSettingsForm" class="settings-form">
+                                <div class="form-group">
+                                    <label for="settingsName">Display Name</label>
+                                    <input type="text" id="settingsName" name="name" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="settingsEmail">Email Address</label>
+                                    <input type="email" id="settingsEmail" name="email" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="settingsLocation">Location</label>
+                                    <input type="text" id="settingsLocation" name="location" placeholder="City, State">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="settingsBio">Bio</label>
+                                    <textarea id="settingsBio" name="bio" maxlength="500"
+                                        placeholder="Tell us about yourself..."></textarea>
+                                </div>
+
+                                <button type="submit" class="btn-primary">Save Changes</button>
+                            </form>
+                        </div>
+
+                        <div class="settings-section">
+                            <h3>Privacy Settings</h3>
+                            <div class="privacy-settings">
+                                <div class="privacy-item">
+                                    <label class="privacy-label">
+                                        <input type="checkbox" id="profilePublic" checked>
+                                        <span class="privacy-text">Make profile public</span>
+                                    </label>
+                                </div>
+
+                                <div class="privacy-item">
+                                    <label class="privacy-label">
+                                        <input type="checkbox" id="showActivity" checked>
+                                        <span class="privacy-text">Show activity timeline</span>
+                                    </label>
+                                </div>
+
+                                <div class="privacy-item">
+                                    <label class="privacy-label">
+                                        <input type="checkbox" id="allowMessages" checked>
+                                        <span class="privacy-text">Allow direct messages</span>
+                                    </label>
+                                </div>
+
+                                <div class="privacy-item">
+                                    <label class="privacy-label">
+                                        <input type="checkbox" id="showEmail">
+                                        <span class="privacy-text">Show email on profile</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-section">
+                            <h3>Notification Settings</h3>
+                            <div class="notification-settings">
+                                <div class="notification-item">
+                                    <label class="notification-label">
+                                        <input type="checkbox" id="emailNotifications" checked>
+                                        <span class="notification-text">Email notifications</span>
+                                    </label>
+                                </div>
+
+                                <div class="notification-item">
+                                    <label class="notification-label">
+                                        <input type="checkbox" id="communityUpdates" checked>
+                                        <span class="notification-text">Community updates</span>
+                                    </label>
+                                </div>
+
+                                <div class="notification-item">
+                                    <label class="notification-label">
+                                        <input type="checkbox" id="surveyInvites" checked>
+                                        <span class="notification-text">Survey invitations</span>
+                                    </label>
+                                </div>
+
+                                <div class="notification-item">
+                                    <label class="notification-label">
+                                        <input type="checkbox" id="weeklyDigest" checked>
+                                        <span class="notification-text">Weekly digest</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-section danger-zone">
+                            <h3>Account Management</h3>
+                            <div class="account-actions">
+                                <button class="btn-secondary" id="changePasswordBtn">
+                                    <i class="fas fa-key"></i> Change Password
+                                </button>
+
+                                <button class="btn-secondary" id="exportDataBtn">
+                                    <i class="fas fa-download"></i> Export My Data
+                                </button>
+
+                                <button class="btn-danger" id="deleteAccountBtn">
+                                    <i class="fas fa-trash"></i> Delete Account
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Alerts Container -->
+    <div class="alerts-container" id="alertsContainer"></div>
+
+    <!-- File Upload Input (Hidden) -->
+    <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
+    <input type="file" id="bannerUpload" accept="image/*" style="display: none;">
+
+    <!-- JavaScript Files -->
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/main.js"></script>
+    <!-- auth.js removed to prevent conflicts with profile.js authentication -->
+    <script type="module" src="js/profile.js"></script>
+</body>
+
+</html>

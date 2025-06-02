@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources - HomeWatch</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/resources.css" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #e5e7eb;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border: 2px solid #3b82f6;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #1e293b;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .faq-container {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-item {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .faq-question {
+            background: white;
+            padding: 20px 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-size: 16px;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .faq-question:hover {
+            background-color: #f8fafc;
+        }
+
+        .faq-icon {
+            width: 32px;
+            height: 32px;
+            background-color: #1e293b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            margin-left: 16px;
+        }
+
+        .faq-icon::after {
+            content: '';
+            width: 12px;
+            height: 12px;
+            border-right: 2px solid white;
+            border-bottom: 2px solid white;
+            transform: rotate(45deg);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            background-color: #f8fafc;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            padding: 20px 24px;
+        }
+
+        .faq-answer p {
+            color: #64748b;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .faq-question {
+                padding: 16px 20px;
+                font-size: 15px;
+            }
+
+            .faq-answer {
+                padding: 16px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" style="text-decoration: none;">
+                <div class="nav-logo">
+                    <i class="fas fa-home"></i>
+                    <span>HomeWatch</span>
+                </div>
+            </a>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="community.html" class="nav-link">Community</a>
+                <a href="survey.html" class="nav-link">Surveys</a>
+                <a href="resources.html" class="nav-link active">Resources</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline" onclick="authManager.logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Resources Content -->
+    <main class="resources-page">
+        <div class="container">
+            <!-- Resources Header -->
+            <!-- <div class="resources-header">
+                <h1>Housing Resources</h1>
+                <p>Everything you need to know about Malaysia's affordable housing programs</p>
+            </div> -->
+
+            <section class="resources-section">
+                <div class="resources-header">
+                    <h1>Housing Resources</h1>
+                    <p>Everything you need to know about Malaysia's affordable housing programs</p>
+                </div>
+            </section>
+
+
+            <!-- Housing Programs Section -->
+            <div id="programsSection" class="resource-section active">
+                <div class="section-header">
+                    <h2>Affordable Housing Programs</h2>
+                    <p>Comprehensive breakdown of available housing schemes in Malaysia</p>
+                </div>
+
+                <div class="programs-grid">
+                    <!-- PR1MA -->
+                    <div class="program-card">
+                        <div class="program-header">
+                            <div class="program-icon">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1Mh2MfSFw-XoEjmeivzy5vWNpFoowLs1dow&s"
+                                    alt="pr1ma Logo" class="program-logo">
+                            </div>
+                            <h3>PR1MA</h3>
+                            <span class="program-status">Active</span>
+                        </div>
+                        <div class="program-content">
+                            <p><strong>Target Group:</strong> Middle-income households</p>
+                            <p><strong>Income Range:</strong> RM2,500 - RM15,000</p>
+                            <p><strong>Property Type:</strong> Apartments, Condominiums, Landed</p>
+                            <div class="program-features">
+                                <h4>Key Features:</h4>
+                                <ul>
+                                    <li>Below market price</li>
+                                    <li>Strategic locations</li>
+                                    <li>Quality developments</li>
+                                    <li>Malaysian citizens only</li>
+                                </ul>
+                            </div>
+                            <div class="program-locations">
+                                <h4>Available Locations:</h4>
+                                <div class="location-tags">
+                                    <span class="tag">Kuala Lumpur</span>
+                                    <span class="tag">Selangor</span>
+                                    <span class="tag">Penang</span>
+                                    <span class="tag">Johor</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="program-actions">
+                            <a href="https://www.pr1ma.my" target="_blank" rel="noreferer noopener">
+                                <button class="btn btn-outline">Learn More</button>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- MyFirst Home -->
+                    <div class="program-card">
+                        <div class="program-header">
+                            <div class="program-icon">
+                                <i class="fas fa-key"></i>
+                            </div>
+                            <h3>MyFirst Home</h3>
+                            <span class="program-status">Active</span>
+                        </div>
+                        <div class="program-content">
+                            <p><strong>Target Group:</strong> First-time homebuyers</p>
+                            <p><strong>Income Range:</strong> RM3,000 - RM10,000</p>
+                            <p><strong>Property Type:</strong> New residential properties</p>
+                            <div class="program-features">
+                                <h4>Key Features:</h4>
+                                <ul>
+                                    <li>100% financing available</li>
+                                    <li>Competitive interest rates</li>
+                                    <li>Flexible repayment terms</li>
+                                    <li>Government guarantee scheme</li>
+                                </ul>
+                            </div>
+                            <div class="program-locations">
+                                <h4>Available Locations:</h4>
+                                <div class="location-tags">
+                                    <span class="tag">Nationwide</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="program-actions">
+                            <a href="https://www.rumahpertama.my" target="_blank" rel="noreferer noopener">
+                                <button class="btn btn-outline">Learn More</button>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- PPR -->
+                    <div class="program-card">
+                        <div class="program-header">
+                            <div class="program-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h3>PPR (Program Perumahan Rakyat)</h3>
+                            <span class="program-status">Active</span>
+                        </div>
+                        <div class="program-content">
+                            <p><strong>Target Group:</strong> Low-income households</p>
+                            <p><strong>Income Range:</strong> Below RM3,000</p>
+                            <p><strong>Property Type:</strong> Low-cost flats</p>
+                            <div class="program-features">
+                                <h4>Key Features:</h4>
+                                <ul>
+                                    <li>Highly subsidized housing</li>
+                                    <li>Rental and ownership options</li>
+                                    <li>Basic amenities included</li>
+                                    <li>Community facilities</li>
+                                </ul>
+                            </div>
+                            <div class="program-locations">
+                                <h4>Available Locations:</h4>
+                                <div class="location-tags">
+                                    <span class="tag">Urban areas</span>
+                                    <span class="tag">State-specific</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="program-actions">
+                            <a href="https://ehome.kpkt.gov.my/index.php/pages/view/553?mid=269" target="_blank"
+                                rel="noreferer noopener">
+                                <button class="btn btn-outline">Learn More</button>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Rumah Selangorku -->
+                    <div class="program-card">
+                        <div class="program-header">
+                            <div class="program-icon">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr9A8wmBhayXHmCW3LyK97Ig-99Oj4l0LLLA&s"
+                                    alt="rumah-selangorku Logo" class="program-logo">
+                            </div>
+                            <h3>Rumah Selangorku</h3>
+                            <span class="program-status">Active</span>
+                        </div>
+                        <div class="program-content">
+                            <p><strong>Target Group:</strong> Working in Klang Valley</p>
+                            <p><strong>Income Range:</strong> RM3,000 - RM10,000</p>
+                            <p><strong>Property Type:</strong> Serviced apartments</p>
+                            <div class="program-features">
+                                <h4>Key Features:</h4>
+                                <ul>
+                                    <li>
+                                        Subsidized housing prices
+                                    </li>
+                                    <li>
+                                        Various housing types
+                                    </li>
+                                    <li>
+                                        Integrated township development
+                                    </li>
+                                    <li>
+                                        Easy financing options
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="program-locations">
+                                <h4>Available Locations:</h4>
+                                <div class="location-tags">
+                                    <span class="tag">Selangor</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="program-actions">
+                            <a href="https://www.rumah-selangorku.com/" target="_blank" rel="noreferer noopener">
+                                <button class="btn btn-outline">Learn More</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loan Calculator Section -->
+            <div id="calculatorSection" class="resource-section">
+                <div class="section-header">
+                    <h2>Loan Calculator</h2>
+                    <p>Calculate your monthly payments and loan details</p>
+                </div>
+
+                <div class="calculator-container">
+                    <form id="loanCalculatorForm" class="calculator-form">
+                        <h3>Loan Details</h3>
+                        <div class="form-group">
+                            <label for="propertyPrice">Property Price (RM)</label>
+                            <input type="number" id="propertyPrice" placeholder="500,000" min="0" step="1000">
+                        </div>
+                        <div class="form-group">
+                            <label for="downPayment">Down Payment (%)</label>
+                            <input type="number" id="downPayment" placeholder="10" min="0" max="100" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label for="loanAmount">Loan Amount (RM)</label>
+                            <input type="number" id="loanAmount" placeholder="450,000" min="0" step="1000" readonly>
+                            <small class="form-hint">Calculated automatically: Property Price - Down Payment</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="interestRate">Interest Rate (% per year)</label>
+                            <input type="number" id="interestRate" placeholder="4.5" min="0" max="20" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="loanTenure">Loan Tenure (Years)</label>
+                            <input type="number" id="loanTenure" placeholder="30" min="1" max="40">
+                        </div>
+                        <button type="button" class="btn btn-primary" id="calculateBtn">Calculate</button>
+                        <button type="button" class="btn btn-outline" id="resetBtn">Reset</button>
+
+                        <p class="calculation-note">*Calculation by Bank Negara</p>
+                    </form>
+
+                    <div class="calculator-results" id="calculatorResults" style="margin-top:100px">
+                        <h3>Calculation Results</h3>
+                        <div class="result-item">
+                            <span class="result-label">Monthly Payment:</span>
+                            <span class="result-value" id="monthlyPayment">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Total Loan Amount:</span>
+                            <span class="result-value" id="loanAmount">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Total Payable:</span>
+                            <span class="result-value" id="totalPayable">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Total Interest:</span>
+                            <span class="result-value" id="totalInterest">-</span>
+                        </div>
+
+                        <div class="payment-breakdown">
+                            <h4>Payment Breakdown</h4>
+                            <div class="breakdown-chart">
+                                <canvas id="paymentChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container" style="padding-top:100px;">
+                <div class="header">
+                    <h1>Frequently Asked Questions</h1>
+                </div>
+
+                <div class="faq-container">
+                    <div class="faq-item active">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>Can I apply for more than one housing scheme?</span>
+                            <div class="faq-icon"></div>
+                        </button>
+                        <div class="faq-answer">
+                            <p>No. You can only apply to one scheme at a time. To switch, you must withdraw your current
+                                application.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>What if my loan is rejected?</span>
+                            <div class="faq-icon"></div>
+                        </button>
+                        <div class="faq-answer">
+                            <p>If your loan application is rejected, you can reapply after addressing the reasons for
+                                rejection or explore alternative financing options available through our partner
+                                institutions.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>Do these houses come with furniture?</span>
+                            <div class="faq-icon"></div>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Houses are delivered unfurnished. However, we offer optional furniture packages that can
+                                be included in your financing plan for an additional cost.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>How long does it take for PRIMA units to be approved?</span>
+                            <div class="faq-icon"></div>
+                        </button>
+                        <div class="faq-answer">
+                            <p>PRIMA unit approvals typically take 4-6 weeks from the date of complete application
+                                submission, subject to document verification and eligibility assessment.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</body>
+
+<script>
+    function toggleFAQ(element) {
+        const faqItem = element.parentElement;
+        const isActive = faqItem.classList.contains('active');
+
+        // Close all FAQ items
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.classList.remove('active');
+        });
+
+        // If the clicked item wasn't active, open it
+        if (!isActive) {
+            faqItem.classList.add('active');
+        }
+    }
+
+    // Optional: Close FAQ when clicking outside
+    document.addEventListener('click', function (event) {
+        if (!event.target.closest('.faq-item')) {
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+            });
+        }
+    });
+</script>
+
+<!-- FAQ Section -->
+<!-- <div id="faqSection" class="resource-section">
+                <div class="section-header">
+                    <h2>Frequently Asked Questions</h2>
+                    <p>Common questions about affordable housing schemes</p>
+                </div>
+
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h3>Can I apply for more than one housing scheme?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>No. You can only apply to one scheme at a time. To switch to another scheme, you must
+                                withdraw your current application first. This policy ensures fair distribution of
+                                housing opportunities among eligible applicants.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h3>What if my loan application is rejected?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>You can reapply after addressing the reasons for rejection. Additionally, you can seek
+                                help through AKPK (Credit Counselling and Debt Management Agency) or BSN's financial
+                                advisory services to improve your financial profile before reapplying.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h3>Do these houses come with furniture?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Most affordable homes are sold as basic units including walls, flooring, and bathroom
+                                fixtures. However, some developments may offer optional upgrade packages or basic
+                                furnishing packages at additional cost. Check with the specific developer for available
+                                options.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h3>How long does it take for PR1MA units to be approved?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>On average, PR1MA applications take 4–8 weeks to be processed after registration closes.
+                                However, this timeline may vary depending on the number of applications received and the
+                                complexity of verification required.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h3>Are married couples given priority?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Certain schemes do prioritize families or married applicants, but single individuals are
+                                still eligible. Each housing scheme has its own eligibility criteria and priority
+                                system. It's best to check the specific requirements for each program you're interested
+                                in.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h3>What documents do I need for application?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Common documents include: IC copy, salary slips (3 months), EPF statement, income tax
+                                form, bank statements, and employment letter. Specific requirements may vary by scheme,
+                                so check the official application guidelines.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <h3>Can foreign spouses apply for these schemes?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Most schemes require applicants to be Malaysian citizens. However, if you're married to a
+                                Malaysian citizen, you may be eligible under certain conditions. Check with the specific
+                                housing authority for detailed eligibility requirements.</p>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+</div>
+</main>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+<script src="js/config.js"></script>
+<script src="js/utils.js"></script>
+<script type="module" src="js/firebase-config.js"></script>
+<script type="module" src="js/auth.js"></script>
+<script type="module" src="js/resources.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+
+</html>

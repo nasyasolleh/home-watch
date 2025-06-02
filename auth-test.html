@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Test - HomeWatch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+        .btn {
+            background: #023047;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn:hover { background: #034d66; }
+        form {
+            margin: 20px 0;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>HomeWatch Authentication Test</h1>
+        
+        <div id="status" class="status info">
+            Testing Firebase connection...
+        </div>
+        
+        <div id="userInfo"></div>
+        
+        <form id="loginForm" style="display:none;">
+            <h3>Login</h3>
+            <input type="email" id="loginEmail" placeholder="Email" value="test@homewatch.my">
+            <input type="password" id="loginPassword" placeholder="Password" value="test123456">
+            <button type="submit" class="btn">Login</button>
+        </form>
+        
+        <form id="registerForm" style="display:none;">
+            <h3>Register Test User</h3>
+            <input type="text" id="regName" placeholder="Name" value="Test User">
+            <input type="email" id="regEmail" placeholder="Email" value="test@homewatch.my">
+            <input type="password" id="regPassword" placeholder="Password" value="test123456">
+            <button type="submit" class="btn">Register</button>
+        </form>
+        
+        <div id="actions" style="display:none;">
+            <button id="logoutBtn" class="btn">Logout</button>
+            <button id="goToProfile" class="btn">Go to Profile</button>
+        </div>
+        
+        <button id="showLogin" class="btn">Show Login</button>
+        <button id="showRegister" class="btn">Show Register</button>
+    </div>
+
+    <script type="module">
+        import { auth, db } from './js/firebase-config.js';
+        import { 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            signOut,
+            onAuthStateChanged 
+        } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
+        import { doc, setDoc } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
+
+        const statusDiv = document.getElementById('status');
+        const userInfoDiv = document.getElementById('userInfo');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const actionsDiv = document.getElementById('actions');
+
+        function updateStatus(message, type = 'info') {
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+        }
+
+        function updateUserInfo(user) {
+            if (user) {
+                userInfoDiv.innerHTML = `
+                    <div class="status success">
+                        <h3>Logged in as:</h3>
+                        <p><strong>UID:</strong> ${user.uid}</p>
+                        <p><strong>Email:</strong> ${user.email}</p>
+                        <p><strong>Display Name:</strong> ${user.displayName || 'Not set'}</p>
+                        <p><strong>Email Verified:</strong> ${user.emailVerified}</p>
+                    </div>
+                `;
+                actionsDiv.style.display = 'block';
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'none';
+            } else {
+                userInfoDiv.innerHTML = '';
+                actionsDiv.style.display = 'none';
+            }
+        }
+
+        // Test Firebase connection
+        if (auth) {
+            updateStatus('Firebase connection successful!', 'success');
+            
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    updateStatus('User is logged in', 'success');
+                    updateUserInfo(user);
+                } else {
+                    updateStatus('No user logged in', 'info');
+                    updateUserInfo(null);
+                }
+            });
+        } else {
+            updateStatus('Firebase connection failed!', 'error');
+        }
+
+        // Event listeners
+        document.getElementById('showLogin').addEventListener('click', () => {
+            loginForm.style.display = 'block';
+            registerForm.style.display = 'none';
+        });
+
+        document.getElementById('showRegister').addEventListener('click', () => {
+            registerForm.style.display = 'block';
+            loginForm.style.display = 'none';
+        });
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                updateStatus('Logging in...', 'info');
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                await signInWithEmailAndPassword(auth, email, password);
+                updateStatus('Login successful!', 'success');
+            } catch (error) {
+                updateStatus(`Login error: ${error.message}`, 'error');
+            }
+        });
+
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                updateStatus('Registering...', 'info');
+                const name = document.getElementById('regName').value;
+                const email = document.getElementById('regEmail').value;
+                const password = document.getElementById('regPassword').value;
+                
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                // Save user profile to Firestore
+                await setDoc(doc(db, 'users', user.uid), {
+                    name: name,
+                    email: email,
+                    bio: 'Test user profile',
+                    location: 'Malaysia',
+                    joinDate: new Date().toISOString(),
+                    stats: {
+                        posts: 0,
+                        followers: 0,
+                        following: 0,
+                        surveys: 0,
+                        likesReceived: 0,
+                        commentsReceived: 0,
+                        sharesReceived: 0
+                    }
+                });
+
+                updateStatus('Registration successful!', 'success');
+            } catch (error) {
+                updateStatus(`Registration error: ${error.message}`, 'error');
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+                updateStatus('Logged out successfully', 'success');
+            } catch (error) {
+                updateStatus(`Logout error: ${error.message}`, 'error');
+            }
+        });
+
+        document.getElementById('goToProfile').addEventListener('click', () => {
+            window.location.href = 'profile.html';
+        });
+    </script>
+</body>
+</html>

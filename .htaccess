@@ -1,0 +1,21 @@
+# Prevent caching of JavaScript files to avoid survey function issues
+<FilesMatch "\.(js)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+</FilesMatch>
+
+# Specifically target survey-related files
+<FilesMatch "survey.*\.(js|html)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+    Header set Expires "Thu, 01 Jan 1970 00:00:00 GMT"
+</FilesMatch>
+
+# Enable mod_headers if available
+<IfModule mod_headers.c>
+    # Force revalidation of cached resources
+    Header always set Cache-Control "no-cache, no-store, must-revalidate"
+    Header always set Pragma "no-cache"
+    Header always set Expires "0"
+</IfModule>

@@ -1,0 +1,23 @@
+<svg width="1200" height="300" viewBox="0 0 1200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Gradient background -->
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#023047;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8D99AE;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#EDF2F4;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="300" fill="url(#bg-gradient)"/>
+  
+  <!-- Decorative elements -->
+  <circle cx="100" cy="100" r="30" fill="#FFB703" opacity="0.7"/>
+  <circle cx="1100" cy="200" r="40" fill="#023047" opacity="0.5"/>
+  <rect x="200" y="50" width="800" height="2" fill="#FFB703" opacity="0.8"/>
+  <rect x="200" y="250" width="800" height="2" fill="#FFB703" opacity="0.8"/>
+  
+  <!-- HomeWatch branding -->
+  <text x="600" y="160" font-family="Arial, sans-serif" font-size="36" font-weight="bold" text-anchor="middle" fill="#2B2D42" opacity="0.3">HomeWatch</text>
+  <text x="600" y="200" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#2B2D42" opacity="0.5">Housing Sentiment Analytics</text>
+</svg>

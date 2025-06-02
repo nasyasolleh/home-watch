@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test - HomeWatch</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .loading { background-color: #d1ecf1; color: #0c5460; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>HomeWatch API Test</h1>
+    <button onclick="testAPI()">Test API Connection</button>
+    <div id="results"></div>
+
+    <script src="js/config.js"></script>
+    <script src="js/api-service.js"></script>
+    <script>
+        async function testAPI() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<div class="test-result loading">Testing API connection...</div>';
+
+            try {
+                // Test 1: Check if AppConfig is available
+                console.log('AppConfig:', AppConfig);
+                addResult('AppConfig loaded successfully', 'success');
+
+                // Test 2: Check if API service is initialized
+                if (!window.apiService) {
+                    throw new Error('API Service not initialized');
+                }
+                addResult('API Service initialized successfully', 'success');
+
+                // Test 3: Test health check
+                console.log('Testing health check...');
+                const health = await window.apiService.checkHealth();
+                if (health) {
+                    addResult('Health check passed', 'success');
+                } else {
+                    addResult('Health check failed', 'error');
+                }
+
+                // Test 4: Test dashboard data
+                console.log('Testing dashboard data...');
+                const dashboardData = await window.apiService.getDashboardAnalytics();
+                addResult('Dashboard data loaded successfully', 'success');
+                addResult('Sample data: <pre>' + JSON.stringify(dashboardData, null, 2).substring(0, 500) + '...</pre>', 'success');
+
+            } catch (error) {
+                console.error('API Test Error:', error);
+                addResult('API Test Failed: ' + error.message, 'error');
+            }
+        }
+
+        function addResult(message, type) {
+            const resultsDiv = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = 'test-result ' + type;
+            div.innerHTML = message;
+            resultsDiv.appendChild(div);
+        }
+
+        // Auto-run test on page load
+        window.addEventListener('load', () => {
+            setTimeout(testAPI, 1000);
+        });
+    </script>
+</body>
+</html>

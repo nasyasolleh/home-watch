@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Posts Management</title>
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --danger-color: #ef4444;
+            --success-color: #10b981;
+            --text-color: #1f2937;
+            --bg-color: #f9fafb;
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .posts-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .posts-table th,
+        .posts-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .posts-table th {
+            font-weight: 600;
+            background-color: #f3f4f6;
+        }
+
+        .posts-table tr:hover {
+            background-color: #f9fafb;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--primary-color);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 0;
+            color: #6b7280;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 4px;
+            color: white;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.success {
+            background-color: var(--success-color);
+        }
+
+        .toast.error {
+            background-color: var(--danger-color);
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        .truncate {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .date-col {
+            white-space: nowrap;
+        }
+
+        @media (max-width: 768px) {
+            .posts-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .truncate {
+                max-width: 150px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Posts Management</h1>
+        </header>
+
+        <div class="card">
+            <div id="loading" class="loading">
+                <div class="loading-spinner"></div>
+            </div>
+
+            <div id="posts-container" style="display: none;">
+                <table class="posts-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Content</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="posts-table-body">
+                        <!-- Posts will be populated here -->
+                    </tbody>
+                </table>
+                <div id="empty-state" class="empty-state" style="display: none;">
+                    <p>No posts found</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Firebase configuration
+        // const firebaseConfig = {
+        //     apiKey: process.env.FIREBASE_API_KEY,
+        //     authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+        //     projectId: process.env.FIREBASE_PROJECT_ID,
+        //     storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+        //     messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+        //     appId: process.env.FIREBASE_APP_ID
+        // };
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD6cjEQ-ljbUX9S5IzHyMXpxQm9KNM-OoA",
+            authDomain: "home-watch-dfe87.firebaseapp.com",
+            projectId: "home-watch-dfe87",
+            storageBucket: "home-watch-dfe87.firebasestorage.app",
+            messagingSenderId: "53573656505",
+            appId: "1:53573656505:web:4249ebd5a88c929a436068",
+            measurementId: "G-74HLL3SWR5"
+        }
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const postsCollection = db.collection('posts');
+
+        // DOM Elements
+        const loadingElement = document.getElementById('loading');
+        const postsContainer = document.getElementById('posts-container');
+        const postsTableBody = document.getElementById('posts-table-body');
+        const emptyState = document.getElementById('empty-state');
+        const toastElement = document.getElementById('toast');
+
+        // Show toast message
+        function showToast(message, type = 'success') {
+            toastElement.textContent = message;
+            toastElement.className = `toast ${type} show`;
+
+            setTimeout(() => {
+                toastElement.className = 'toast';
+            }, 3000);
+        }
+
+        // Format date
+        function formatDate(timestamp) {
+            if (!timestamp) return 'N/A';
+
+            const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Delete post
+        async function deletePost(postId) {
+            if (!confirm('Are you sure you want to delete this post?')) {
+                return;
+            }
+
+            try {
+                await postsCollection.doc(postId).delete();
+                showToast('Post deleted successfully');
+                fetchPosts(); // Refresh the list
+            } catch (error) {
+                console.error('Error deleting post:', error);
+                showToast('Error deleting post', 'error');
+            }
+        }
+
+        // Render posts
+        function renderPosts(posts) {
+            // Check if Firebase is available
+
+            if (posts.length === 0) {
+                postsTableBody.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            console.log("posts: ", posts)
+
+            emptyState.style.display = 'none';
+            postsTableBody.innerHTML = posts.map(post => `
+                <tr>
+                    <td class="truncate">${post.title || 'Untitled'}</td>
+                    <td class="truncate">${post.content || 'No content'}</td>
+                    <td class="date-col">${formatDate(post.timestamp)}</td>
+                    <td>
+                        <button class="btn btn-danger" onclick="deletePost('${post.id}')">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Fetch posts from Firestore
+        async function fetchPosts() {
+            loadingElement.style.display = 'flex';
+            postsContainer.style.display = 'none';
+
+            try {
+                const snapshot = await postsCollection.orderBy('timestamp').get();
+                const posts = snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+
+
+                console.log("posts: ", posts)
+
+                renderPosts(posts);
+            } catch (error) {
+                console.error('Error fetching posts:', error);
+                showToast('Error fetching posts', 'error');
+            } finally {
+                loadingElement.style.display = 'none';
+                postsContainer.style.display = 'block';
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchPosts();
+        });
+    </script>
+</body>
+
+</html>

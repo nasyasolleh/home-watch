@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - HomeWatch</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/dashboard.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" style="text-decoration: none;">
+                <div class="nav-logo">
+                    <i class="fas fa-home"></i>
+                    <span>HomeWatch</span>
+                </div>
+            </a>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link active">Dashboard</a>
+                <a href="community.html" class="nav-link">Community</a>
+                <a href="survey.html" class="nav-link">Surveys</a>
+                <a href="resources.html" class="nav-link">Resources</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline" onclick="authManager.logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <main class="dashboard">
+        <div class="container">
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+                <h1>Sentiment Analytics Dashboard</h1>
+                <p>Real-time analysis of Malaysia's affordable housing policies</p>
+                <div class="dashboard-stats">
+                    <!-- <div class="stat-item">
+                        <i class="fas fa-comments"></i>
+                        <div>
+                            <span class="stat-number">1,247</span>
+                            <span class="stat-label">Social Posts</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-newspaper"></i>
+                        <div>
+                            <span class="stat-number">55</span>
+                            <span class="stat-label">News Articles</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-poll"></i>
+                        <div>
+                            <span class="stat-number">343</span>
+                            <span class="stat-label">Survey Responses</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-chart-line"></i>
+                        <div>
+                            <span class="stat-number">72%</span>
+                            <span class="stat-label">Positive Sentiment</span>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <div class="chart-grid">
+                    <!-- Sentiment Over Time Chart -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Sentiment Trend Over Time</h3>
+                            <div class="chart-controls">
+                                <select id="timeRange">
+                                    <option value="7">Last 7 days</option>
+                                    <option value="30" selected>Last 30 days</option>
+                                    <option value="90">Last 3 months</option>
+                                </select>
+                            </div>
+                        </div>
+                        <canvas id="sentimentChart"></canvas>
+                    </div>
+
+                    <!-- Sentiment Distribution -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Sentiment Distribution</h3>
+                        </div>
+                        <canvas id="sentimentPieChart"></canvas>
+                    </div>
+
+                    <!-- Housing Programs Mentions -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Housing Programs Mentions</h3>
+                        </div>
+                        <canvas id="programsChart"></canvas>
+                    </div>
+
+                    <!-- Source Analysis -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Data Sources</h3>
+                        </div>
+                        <canvas id="sourcesChart"></canvas>
+                    </div>
+
+                    <!-- Word Cloud -->
+                    <div class="chart-card wordcloud-card">
+                        <div class="chart-header">
+                            <h3>Popular Keywords</h3>
+                            <div class="chart-controls">
+                                <select id="wordcloudType">
+                                    <option value="all">All Data</option>
+                                    <option value="positive">Positive Sentiment</option>
+                                    <option value="negative">Negative Sentiment</option>
+                                    <option value="news">News Only</option>
+                                    <option value="social">Social Data</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="wordcloudContainer" class="wordcloud-container">
+                            <div class="loading-spinner">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                            <span>Generating word cloud...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+          
+
+            <!-- Key Insights -->
+            <div class="insights-section">
+                <h3>Key Insights</h3>
+                <div class="insights-grid">
+                    <div class="insight-card positive">
+                        <i class="fas fa-thumbs-up"></i>
+                        <h4>Positive Trend</h4>
+                        <p>PR1MA housing scheme shows 15% increase in positive sentiment this month</p>
+                        <span class="insight-date">2 hours ago</span>
+                    </div>
+                    <div class="insight-card neutral">
+                        <i class="fas fa-chart-bar"></i>
+                        <h4>New Discussion</h4>
+                        <p>MyFirst Home scheme generating significant discussion on social media</p>
+                        <span class="insight-date">5 hours ago</span>
+                    </div>
+                    <div class="insight-card warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h4>Attention Needed</h4>
+                        <p>PPR housing concerns rising in urban areas, requires policy review</p>
+                        <span class="insight-date">1 day ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api-service.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
