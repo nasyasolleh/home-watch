@@ -1,4 +1,4 @@
-FROM python:3
+FROM --platform=linux/amd64 python:3.11-slim-bullseye AS build
 
 WORKDIR /usr/src/app
 
