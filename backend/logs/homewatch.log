@@ -7314,3 +7314,155 @@
 2025-06-03 03:56:23,414 - __main__ - INFO - Generated comprehensive dashboard overview
 2025-06-03 03:56:23,415 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 03:56:23] "GET /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
 2025-06-03 03:56:23,568 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 03:56:23] "GET /api/analytics/wordcloud?type=all&limit=50 HTTP/1.1" 200 -
+2025-06-03 13:23:34,860 - sentiment.analyzer - INFO - SentimentAnalyzer initialized successfully
+2025-06-03 13:23:34,861 - data.processors - INFO - DataProcessor initialized
+2025-06-03 13:23:34,864 - data.dataset_analyzer - INFO - Loaded 67 survey responses
+2025-06-03 13:23:34,864 - data.dataset_analyzer - INFO - Columns: ['Timestamp', 'Age Group', 'Current Employment Status', 'Monthly Household Income', 'Current Housing Situation', 'Location (State you currently reside in):', "How familiar are you with Malaysia's affordable housing policies (e.g., PR1MA, RUMAWIP, PPA1M)?", 'Where do you usually get your information about housing policies?', 'Have you ever applied for any affordable housing scheme in Malaysia?', 'If yes, how would you rate your experience?', 'What challenges have you faced (or expect to face) when trying to access affordable housing? (Select all that apply)', 'How would you describe your overall sentiment towards affordable housing policies in Malaysia?', 'In your opinion, what is the biggest weakness in Malaysia’s current affordable housing policies?', 'What improvements would you like to see in future housing policies?', 'Would you be open to participating in community discussions or polls on housing-related issues via this platform?']
+2025-06-03 13:23:34,870 - data.dataset_analyzer - INFO - Data preprocessing completed
+2025-06-03 13:23:34,870 - data.dataset_analyzer - INFO - DatasetAnalyzer initialized successfully
+2025-06-03 13:23:34,871 - analytics.generator - INFO - AnalyticsGenerator initialized
+2025-06-03 13:23:34,871 - database.manager - INFO - DatabaseManager initialized with sqlite backend
+2025-06-03 13:23:34,875 - database.manager - INFO - Database initialized successfully
+2025-06-03 13:23:34,875 - __main__ - INFO - Starting HomeWatch API server on port 5001
+2025-06-03 13:23:34,883 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://100.64.0.16:5001
+2025-06-03 13:23:34,883 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-03 13:23:50,415 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 13:23:50] "OPTIONS /api/health HTTP/1.1" 200 -
+2025-06-03 13:23:50,417 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 13:23:50] "GET /api/health HTTP/1.1" 200 -
+2025-06-03 13:23:50,419 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 13:23:50] "OPTIONS /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 13:23:50,454 - data.dataset_analyzer - INFO - Comprehensive dashboard data generated successfully
+2025-06-03 13:23:50,454 - __main__ - INFO - Generated comprehensive dashboard overview
+2025-06-03 13:23:50,455 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 13:23:50] "GET /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 13:23:50,620 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 13:23:50] "GET /api/analytics/wordcloud?type=all&limit=50 HTTP/1.1" 200 -
+2025-06-03 13:23:56,212 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 13:23:56] "OPTIONS /api/sentiment/batch HTTP/1.1" 200 -
+2025-06-03 13:23:56,255 - sentiment.analyzer - INFO - Batch analysis completed: 15 items processed
+2025-06-03 13:23:56,269 - __main__ - INFO - Batch sentiment analysis completed for 15 texts
+2025-06-03 13:23:56,270 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 13:23:56] "POST /api/sentiment/batch HTTP/1.1" 200 -
+2025-06-03 13:29:22,421 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 13:29:22] "OPTIONS /api/health HTTP/1.1" 200 -
+2025-06-03 13:29:22,424 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 13:29:22] "GET /api/health HTTP/1.1" 200 -
+2025-06-03 13:29:22,427 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 13:29:22] "OPTIONS /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 13:29:22,466 - data.dataset_analyzer - INFO - Comprehensive dashboard data generated successfully
+2025-06-03 13:29:22,466 - __main__ - INFO - Generated comprehensive dashboard overview
+2025-06-03 13:29:22,467 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 13:29:22] "GET /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 13:29:22,631 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 13:29:22] "GET /api/analytics/wordcloud?type=all&limit=50 HTTP/1.1" 200 -
+2025-06-03 13:50:20,657 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 13:50:20] "OPTIONS /api/health HTTP/1.1" 200 -
+2025-06-03 13:50:20,660 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 13:50:20] "GET /api/health HTTP/1.1" 200 -
+2025-06-03 13:50:20,669 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 13:50:20] "OPTIONS /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 13:50:20,709 - data.dataset_analyzer - INFO - Comprehensive dashboard data generated successfully
+2025-06-03 13:50:20,709 - __main__ - INFO - Generated comprehensive dashboard overview
+2025-06-03 13:50:20,709 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 13:50:20] "GET /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 13:50:20,882 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 13:50:20] "GET /api/analytics/wordcloud?type=all&limit=50 HTTP/1.1" 200 -
+2025-06-03 13:50:28,286 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 13:50:28] "OPTIONS /api/sentiment/batch HTTP/1.1" 200 -
+2025-06-03 13:50:28,359 - sentiment.analyzer - INFO - Batch analysis completed: 15 items processed
+2025-06-03 13:50:28,371 - __main__ - INFO - Batch sentiment analysis completed for 15 texts
+2025-06-03 13:50:28,371 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 13:50:28] "POST /api/sentiment/batch HTTP/1.1" 200 -
+2025-06-03 14:27:41,537 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:27:41] "OPTIONS /api/health HTTP/1.1" 200 -
+2025-06-03 14:27:41,540 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:27:41] "GET /api/health HTTP/1.1" 200 -
+2025-06-03 14:27:41,545 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:27:41] "OPTIONS /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 14:27:41,586 - data.dataset_analyzer - INFO - Comprehensive dashboard data generated successfully
+2025-06-03 14:27:41,586 - __main__ - INFO - Generated comprehensive dashboard overview
+2025-06-03 14:27:41,586 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:27:41] "GET /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 14:27:41,755 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:27:41] "GET /api/analytics/wordcloud?type=all&limit=50 HTTP/1.1" 200 -
+2025-06-03 14:27:53,556 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:27:53] "OPTIONS /api/health HTTP/1.1" 200 -
+2025-06-03 14:27:53,561 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:27:53] "GET /api/health HTTP/1.1" 200 -
+2025-06-03 14:27:53,564 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:27:53] "OPTIONS /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 14:27:53,604 - data.dataset_analyzer - INFO - Comprehensive dashboard data generated successfully
+2025-06-03 14:27:53,604 - __main__ - INFO - Generated comprehensive dashboard overview
+2025-06-03 14:27:53,605 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:27:53] "GET /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 14:27:53,771 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:27:53] "GET /api/analytics/wordcloud?type=all&limit=50 HTTP/1.1" 200 -
+2025-06-03 14:58:20,913 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:58:20] "OPTIONS /api/health HTTP/1.1" 200 -
+2025-06-03 14:58:20,916 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:58:20] "GET /api/health HTTP/1.1" 200 -
+2025-06-03 14:58:20,919 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:58:20] "OPTIONS /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 14:58:20,953 - data.dataset_analyzer - INFO - Comprehensive dashboard data generated successfully
+2025-06-03 14:58:20,954 - __main__ - INFO - Generated comprehensive dashboard overview
+2025-06-03 14:58:20,954 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:58:20] "GET /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 14:58:21,127 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:58:21] "GET /api/analytics/wordcloud?type=all&limit=50 HTTP/1.1" 200 -
+2025-06-03 14:58:48,316 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:58:48] "OPTIONS /api/sentiment/batch HTTP/1.1" 200 -
+2025-06-03 14:58:48,332 - sentiment.analyzer - INFO - Batch analysis completed: 15 items processed
+2025-06-03 14:58:48,355 - __main__ - INFO - Batch sentiment analysis completed for 15 texts
+2025-06-03 14:58:48,355 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:58:48] "POST /api/sentiment/batch HTTP/1.1" 200 -
+2025-06-03 14:59:05,993 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:59:05] "OPTIONS /api/health HTTP/1.1" 200 -
+2025-06-03 14:59:05,996 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:59:05] "GET /api/health HTTP/1.1" 200 -
+2025-06-03 14:59:05,999 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:59:05] "OPTIONS /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 14:59:06,039 - data.dataset_analyzer - INFO - Comprehensive dashboard data generated successfully
+2025-06-03 14:59:06,040 - __main__ - INFO - Generated comprehensive dashboard overview
+2025-06-03 14:59:06,040 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:59:06] "GET /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 14:59:06,207 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:59:06] "GET /api/analytics/wordcloud?type=all&limit=50 HTTP/1.1" 200 -
+2025-06-03 14:59:09,780 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:59:09] "OPTIONS /api/sentiment/batch HTTP/1.1" 200 -
+2025-06-03 14:59:09,794 - sentiment.analyzer - INFO - Batch analysis completed: 15 items processed
+2025-06-03 14:59:09,812 - __main__ - INFO - Batch sentiment analysis completed for 15 texts
+2025-06-03 14:59:09,813 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:59:09] "POST /api/sentiment/batch HTTP/1.1" 200 -
+2025-06-03 15:01:36,119 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:01:36] "OPTIONS /api/sentiment/batch HTTP/1.1" 200 -
+2025-06-03 15:01:36,132 - sentiment.analyzer - INFO - Batch analysis completed: 15 items processed
+2025-06-03 15:01:36,147 - __main__ - INFO - Batch sentiment analysis completed for 15 texts
+2025-06-03 15:01:36,148 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:01:36] "POST /api/sentiment/batch HTTP/1.1" 200 -
+2025-06-03 15:04:39,080 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:04:39] "OPTIONS /api/health HTTP/1.1" 200 -
+2025-06-03 15:04:39,083 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:04:39] "GET /api/health HTTP/1.1" 200 -
+2025-06-03 15:04:39,087 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:04:39] "OPTIONS /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 15:04:39,126 - data.dataset_analyzer - INFO - Comprehensive dashboard data generated successfully
+2025-06-03 15:04:39,126 - __main__ - INFO - Generated comprehensive dashboard overview
+2025-06-03 15:04:39,126 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:04:39] "GET /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 15:04:39,296 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:04:39] "GET /api/analytics/wordcloud?type=all&limit=50 HTTP/1.1" 200 -
+2025-06-03 15:07:27,544 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:07:27] "OPTIONS /api/health HTTP/1.1" 200 -
+2025-06-03 15:07:27,547 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:07:27] "GET /api/health HTTP/1.1" 200 -
+2025-06-03 15:07:27,555 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:07:27] "OPTIONS /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 15:07:27,594 - data.dataset_analyzer - INFO - Comprehensive dashboard data generated successfully
+2025-06-03 15:07:27,594 - __main__ - INFO - Generated comprehensive dashboard overview
+2025-06-03 15:07:27,594 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:07:27] "GET /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 15:07:27,758 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:07:27] "GET /api/analytics/wordcloud?type=all&limit=50 HTTP/1.1" 200 -
+2025-06-03 15:08:27,622 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:08:27] "OPTIONS /api/dashboard/overview?timeframe=1d HTTP/1.1" 200 -
+2025-06-03 15:08:27,663 - data.dataset_analyzer - INFO - Comprehensive dashboard data generated successfully
+2025-06-03 15:08:27,664 - __main__ - INFO - Generated comprehensive dashboard overview
+2025-06-03 15:08:27,664 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:08:27] "GET /api/dashboard/overview?timeframe=1d HTTP/1.1" 200 -
+2025-06-03 15:08:36,254 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:08:36] "OPTIONS /api/sentiment/batch HTTP/1.1" 200 -
+2025-06-03 15:08:36,270 - sentiment.analyzer - INFO - Batch analysis completed: 15 items processed
+2025-06-03 15:08:36,286 - __main__ - INFO - Batch sentiment analysis completed for 15 texts
+2025-06-03 15:08:36,286 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:08:36] "POST /api/sentiment/batch HTTP/1.1" 200 -
+2025-06-03 15:10:52,185 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:10:52] "OPTIONS /api/health HTTP/1.1" 200 -
+2025-06-03 15:10:52,190 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:10:52] "GET /api/health HTTP/1.1" 200 -
+2025-06-03 15:10:52,195 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:10:52] "OPTIONS /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 15:10:52,231 - data.dataset_analyzer - INFO - Comprehensive dashboard data generated successfully
+2025-06-03 15:10:52,231 - __main__ - INFO - Generated comprehensive dashboard overview
+2025-06-03 15:10:52,231 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:10:52] "GET /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 15:10:52,404 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:10:52] "GET /api/analytics/wordcloud?type=all&limit=50 HTTP/1.1" 200 -
+2025-06-03 15:11:52,258 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:11:52] "OPTIONS /api/dashboard/overview?timeframe=1d HTTP/1.1" 200 -
+2025-06-03 15:11:52,304 - data.dataset_analyzer - INFO - Comprehensive dashboard data generated successfully
+2025-06-03 15:11:52,304 - __main__ - INFO - Generated comprehensive dashboard overview
+2025-06-03 15:11:52,305 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:11:52] "GET /api/dashboard/overview?timeframe=1d HTTP/1.1" 200 -
+2025-06-03 15:12:52,255 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:12:52] "OPTIONS /api/dashboard/overview?timeframe=1d HTTP/1.1" 200 -
+2025-06-03 15:12:52,300 - data.dataset_analyzer - INFO - Comprehensive dashboard data generated successfully
+2025-06-03 15:12:52,300 - __main__ - INFO - Generated comprehensive dashboard overview
+2025-06-03 15:12:52,301 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:12:52] "GET /api/dashboard/overview?timeframe=1d HTTP/1.1" 200 -
+2025-06-03 15:13:04,508 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:13:04] "OPTIONS /api/sentiment/batch HTTP/1.1" 200 -
+2025-06-03 15:13:04,524 - sentiment.analyzer - INFO - Batch analysis completed: 15 items processed
+2025-06-03 15:13:04,542 - __main__ - INFO - Batch sentiment analysis completed for 15 texts
+2025-06-03 15:13:04,543 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:13:04] "POST /api/sentiment/batch HTTP/1.1" 200 -
+2025-06-03 15:13:14,678 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:13:14] "OPTIONS /api/health HTTP/1.1" 200 -
+2025-06-03 15:13:14,684 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:13:14] "GET /api/health HTTP/1.1" 200 -
+2025-06-03 15:13:14,687 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:13:14] "OPTIONS /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 15:13:14,723 - data.dataset_analyzer - INFO - Comprehensive dashboard data generated successfully
+2025-06-03 15:13:14,723 - __main__ - INFO - Generated comprehensive dashboard overview
+2025-06-03 15:13:14,723 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:13:14] "GET /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 15:13:14,892 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:13:14] "GET /api/analytics/wordcloud?type=all&limit=50 HTTP/1.1" 200 -
+2025-06-03 15:14:14,750 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:14:14] "OPTIONS /api/dashboard/overview?timeframe=1d HTTP/1.1" 200 -
+2025-06-03 15:14:14,792 - data.dataset_analyzer - INFO - Comprehensive dashboard data generated successfully
+2025-06-03 15:14:14,792 - __main__ - INFO - Generated comprehensive dashboard overview
+2025-06-03 15:14:14,792 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:14:14] "GET /api/dashboard/overview?timeframe=1d HTTP/1.1" 200 -
+2025-06-03 15:15:14,749 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:15:14] "OPTIONS /api/dashboard/overview?timeframe=1d HTTP/1.1" 200 -
+2025-06-03 15:15:14,796 - data.dataset_analyzer - INFO - Comprehensive dashboard data generated successfully
+2025-06-03 15:15:14,796 - __main__ - INFO - Generated comprehensive dashboard overview
+2025-06-03 15:15:14,796 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:15:14] "GET /api/dashboard/overview?timeframe=1d HTTP/1.1" 200 -
+2025-06-03 15:15:36,141 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:15:36] "GET /api/analytics/wordcloud?type=news&limit=50 HTTP/1.1" 200 -
+2025-06-03 15:15:38,473 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:15:38] "GET /api/analytics/wordcloud?type=social&limit=50 HTTP/1.1" 200 -
+2025-06-03 15:15:41,774 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:15:41] "GET /api/analytics/wordcloud?type=positive&limit=50 HTTP/1.1" 200 -
+2025-06-03 15:15:43,559 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:15:43] "GET /api/analytics/wordcloud?type=negative&limit=50 HTTP/1.1" 200 -
+2025-06-03 15:15:46,552 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:15:46] "GET /api/analytics/wordcloud?type=news&limit=50 HTTP/1.1" 200 -
+2025-06-03 15:15:49,045 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:15:49] "GET /api/analytics/wordcloud?type=all&limit=50 HTTP/1.1" 200 -
+2025-06-03 15:16:02,418 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:16:02] "GET /api/analytics/wordcloud?type=news&limit=50 HTTP/1.1" 200 -
+2025-06-03 15:16:08,825 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:16:08] "GET /api/analytics/wordcloud?type=social&limit=50 HTTP/1.1" 200 -
+2025-06-03 15:16:14,747 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:16:14] "OPTIONS /api/dashboard/overview?timeframe=1d HTTP/1.1" 200 -
+2025-06-03 15:16:14,789 - data.dataset_analyzer - INFO - Comprehensive dashboard data generated successfully
+2025-06-03 15:16:14,789 - __main__ - INFO - Generated comprehensive dashboard overview
+2025-06-03 15:16:14,789 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:16:14] "GET /api/dashboard/overview?timeframe=1d HTTP/1.1" 200 -

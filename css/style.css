@@ -469,7 +469,7 @@ h1, h2, h3, h4, h5, h6 {
 .footer-section a {
     color: var(--primary-color) !important;
     text-decoration: none;
-    display: block;
+    /* display: block; */
     margin-bottom: 0.5rem;
 }
 
