@@ -1,184 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surveys - HomeWatch</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <link href="css/survey.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surveys - HomeWatch</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link href="css/survey.css" rel="stylesheet">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
+
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" style="text-decoration: none;">
-                <div class="nav-logo">
-                    <i class="fas fa-home"></i>
-                    <span>HomeWatch</span>
-                </div>
-            </a>
-            <div class="nav-menu">
-                <a href="dashboard.html" class="nav-link">Dashboard</a>
-                <a href="community.html" class="nav-link">Community</a>
-                <a href="survey.html" class="nav-link active">Surveys</a>
-                <a href="resources.html" class="nav-link">Resources</a>
-                <a href="profile.html" class="nav-link">Profile</a>
-                <div class="auth-buttons">
-                    <button class="btn btn-outline">Logout</button>
-                </div>
-            </div>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" style="text-decoration: none;">
+        <div class="nav-logo">
+          <i class="fas fa-home"></i>
+          <span>HomeWatch</span>
         </div>
-    </nav>
+      </a>
+      <div class="nav-menu">
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+        <a href="community.html" class="nav-link">Community</a>
+        <a href="survey.html" class="nav-link active">Surveys</a>
+        <a href="resources.html" class="nav-link">Resources</a>
+        <a href="profile.html" class="nav-link">Profile</a>
+        <div class="auth-buttons">
+          <button class="btn btn-outline">Logout</button>
+        </div>
+      </div>
+    </div>
+  </nav>
 
-    <!-- Header -->
-    <div class="hero-header">
-        <div class="container">
-            <div class="header-content">
-                <h1>Surveys & Policy Feedback</h1>
-                <p>Your voice matters. Help shape Malaysia's affordable housing future through surveys and community-driven policy ideas.</p>
-                <button class="btn btn-primary" onclick="showPolicyIdeaModal()">
-                    <i class="fas fa-lightbulb"></i>
-                    Submit Policy Idea
-                </button>
-            </div>
-        </div>
+  <!-- Header -->
+  <div class="hero-header">
+    <div class="container">
+      <div class="header-content">
+        <h1>Surveys & Policy Feedback</h1>
+        <p>Your voice matters. Help shape Malaysia's affordable housing future through surveys and community-driven
+          policy ideas.</p>
+        <button class="btn btn-primary" onclick="showPolicyIdeaModal()">
+          <i class="fas fa-lightbulb"></i>
+          Submit Policy Idea
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container main-content">
+    <!-- Navigation Tabs -->
+    <div class="survey-tabs">
+      <button class="tab-btn active" onclick="showTab('vote')" data-tab="vote">
+        <i class="fas fa-vote-yea"></i>
+        <span>Active Surveys</span>
+        <span class="badge">4</span>
+      </button>
+      <button class="tab-btn" onclick="showTab('ideas')" data-tab="ideas">
+        <i class="fas fa-lightbulb"></i>
+        <span>Policy Ideas</span>
+        <span class="badge" id="ideas-count">2</span>
+      </button>
+      <button class="tab-btn" onclick="showTab('results')" data-tab="results">
+        <i class="fas fa-chart-bar"></i>
+        <span>Results</span>
+        <span class="badge" id="results-count">0</span>
+      </button>
     </div>
 
-    <!-- Main Content -->
-    <div class="container main-content">
-        <!-- Navigation Tabs -->
-        <div class="survey-tabs">
-            <button class="tab-btn active" onclick="showTab('vote')" data-tab="vote">
-                <i class="fas fa-vote-yea"></i>
-                <span>Active Surveys</span>
-                <span class="badge">4</span>
-            </button>
-            <button class="tab-btn" onclick="showTab('ideas')" data-tab="ideas">
-                <i class="fas fa-lightbulb"></i>
-                <span>Policy Ideas</span>
-                <span class="badge" id="ideas-count">2</span>
-            </button>
-            <button class="tab-btn" onclick="showTab('results')" data-tab="results">
-                <i class="fas fa-chart-bar"></i>
-                <span>Results</span>
-                <span class="badge" id="results-count">0</span>
-            </button>
-        </div>
+    <!-- Vote Tab Content -->
+    <div id="vote-tab" class="tab-content active">
+      <!-- Quick Polls Section -->
+      <section class="section">
+        <h2>Quick Polls</h2>
+        <p>Quick questions that help shape housing policy priorities</p>
 
-        <!-- Vote Tab Content -->
-        <div id="vote-tab" class="tab-content active">
-            <!-- Quick Polls Section -->
-            <section class="section">
-                <h2>Quick Polls</h2>
-                <p>Quick questions that help shape housing policy priorities</p>
-                
-                <div class="polls-grid" id="quick-polls">
-                    <!-- Quick polls will be loaded here -->
-                </div>
-            </section>
-
-            <!-- Active Surveys Section -->
-            <section class="section">
-                <h2>Active Surveys</h2>
-                <p>Participate in ongoing surveys about housing policies and make your voice heard</p>
-                
-                <div class="surveys-grid" id="active-surveys">
-                    <!-- Surveys will be loaded here -->
-                </div>
-            </section>
+        <div class="polls-grid" id="quick-polls">
+          <!-- Quick polls will be loaded here -->
         </div>
+      </section>
 
-        <!-- Ideas Tab Content -->
-        <div id="ideas-tab" class="tab-content">
-            <section class="section">
-                <h2>Community Ideas</h2>
-                <p>Innovative policy suggestions from the community</p>
-                
-                <div class="ideas-grid" id="policy-ideas">
-                    <!-- Policy ideas will be loaded here -->
-                </div>
-            </section>
-        </div>
+      <!-- Active Surveys Section -->
+      <section class="section">
+        <h2>Active Surveys</h2>
+        <p>Participate in ongoing surveys about housing policies and make your voice heard</p>
 
-        <!-- Results Tab Content -->
-        <div id="results-tab" class="tab-content">
-            <section class="section">
-                <h2>Survey Results</h2>
-                <p>Insights from completed surveys and your participation</p>
-                
-                <div class="results-stats" id="results-stats">
-                    <!-- Results stats will be loaded here -->
-                </div>
-                
-                <div class="results-list" id="results-list">
-                    <!-- Results list will be loaded here -->
-                </div>
-            </section>
+        <div class="surveys-grid" id="active-surveys">
+          <!-- Surveys will be loaded here -->
         </div>
+      </section>
     </div>
 
-    <!-- Survey Modal -->
-    <div id="survey-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeSurveyModal()">&times;</span>
-            <div id="survey-form-container">
-                <!-- Survey form will be loaded here -->
-            </div>
+    <!-- Ideas Tab Content -->
+    <div id="ideas-tab" class="tab-content">
+      <section class="section">
+        <h2>Community Ideas</h2>
+        <p>Innovative policy suggestions from the community</p>
+
+        <div class="ideas-grid" id="policy-ideas">
+          <!-- Policy ideas will be loaded here -->
         </div>
+      </section>
     </div>
 
-    <!-- Policy Idea Modal -->
-    <div id="policy-idea-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closePolicyIdeaModal()">&times;</span>
-            <h2>Submit Policy Idea</h2>
-            <form id="policy-idea-form">
-                <div class="form-group">
-                    <label for="idea-title">Idea Title *</label>
-                    <input type="text" id="idea-title" required placeholder="Brief, descriptive title for your idea">
-                </div>
-                
-                <div class="form-group">
-                    <label for="idea-category">Category *</label>
-                    <select id="idea-category" required>
-                        <option value="">Select a category</option>
-                        <option value="eligibility">Eligibility Criteria</option>
-                        <option value="application">Application Process</option>
-                        <option value="financing">Financing & Loans</option>
-                        <option value="location">Location & Development</option>
-                        <option value="maintenance">Maintenance & Management</option>
-                        <option value="digital">Digital Innovation</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="idea-description">Detailed Description *</label>
-                    <textarea id="idea-description" required rows="6" placeholder="Explain your idea in detail..."></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="idea-benefits">Expected Benefits *</label>
-                    <textarea id="idea-benefits" required rows="3" placeholder="What positive impact would this idea have?"></textarea>
-                </div>
-                
-                <div class="form-actions">
-                    <button type="button" class="btn btn-outline" onclick="closePolicyIdeaModal()">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Submit Idea</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <!-- Results Tab Content -->
+    <div id="results-tab" class="tab-content">
+      <section class="section">
+        <h2>Survey Results</h2>
+        <p>Insights from completed surveys and your participation</p>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="toast">
-        <div class="toast-content">
-            <span id="toast-message"></span>
-            <button class="toast-close" onclick="hideToast()">&times;</button>
+        <div class="results-stats" id="results-stats">
+          <!-- Results stats will be loaded here -->
         </div>
-    </div>
 
-    <script src="js/survey.js"></script>
+        <div class="results-list" id="results-list">
+          <!-- Results list will be loaded here -->
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Survey Modal -->
+  <div id="survey-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeSurveyModal()">&times;</span>
+      <div id="survey-form-container">
+        <!-- Survey form will be loaded here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Policy Idea Modal -->
+  <div id="policy-idea-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closePolicyIdeaModal()">&times;</span>
+      <h2>Submit Policy Idea</h2>
+      <form id="policy-idea-form">
+        <div class="form-group">
+          <label for="idea-title">Idea Title *</label>
+          <input type="text" id="idea-title" required placeholder="Brief, descriptive title for your idea">
+        </div>
+
+        <div class="form-group">
+          <label for="idea-category">Category *</label>
+          <select id="idea-category" required>
+            <option value="">Select a category</option>
+            <option value="eligibility">Eligibility Criteria</option>
+            <option value="application">Application Process</option>
+            <option value="financing">Financing & Loans</option>
+            <option value="location">Location & Development</option>
+            <option value="maintenance">Maintenance & Management</option>
+            <option value="digital">Digital Innovation</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="idea-description">Detailed Description *</label>
+          <textarea id="idea-description" required rows="6" placeholder="Explain your idea in detail..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="idea-benefits">Expected Benefits *</label>
+          <textarea id="idea-benefits" required rows="3"
+            placeholder="What positive impact would this idea have?"></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline" onclick="closePolicyIdeaModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Submit Idea</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">
+    <div class="toast-content">
+      <span id="toast-message"></span>
+      <button class="toast-close" onclick="hideToast()">&times;</button>
+    </div>
+  </div>
+
+  <script src="js/survey.js"></script>
 </body>
+
 </html>
