@@ -7466,3 +7466,22 @@
 2025-06-03 15:16:14,789 - data.dataset_analyzer - INFO - Comprehensive dashboard data generated successfully
 2025-06-03 15:16:14,789 - __main__ - INFO - Generated comprehensive dashboard overview
 2025-06-03 15:16:14,789 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 15:16:14] "GET /api/dashboard/overview?timeframe=1d HTTP/1.1" 200 -
+2025-06-03 17:52:44,738 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 17:52:44] "OPTIONS /api/sentiment/batch HTTP/1.1" 200 -
+2025-06-03 17:52:44,758 - sentiment.analyzer - INFO - Batch analysis completed: 15 items processed
+2025-06-03 17:52:44,775 - __main__ - INFO - Batch sentiment analysis completed for 15 texts
+2025-06-03 17:52:44,775 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 17:52:44] "POST /api/sentiment/batch HTTP/1.1" 200 -
+2025-06-03 18:38:38,053 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 18:38:38] "OPTIONS /api/sentiment/batch HTTP/1.1" 200 -
+2025-06-03 18:38:38,067 - sentiment.analyzer - INFO - Batch analysis completed: 15 items processed
+2025-06-03 18:38:38,089 - __main__ - INFO - Batch sentiment analysis completed for 15 texts
+2025-06-03 18:38:38,089 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 18:38:38] "POST /api/sentiment/batch HTTP/1.1" 200 -
+2025-06-03 18:39:13,806 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 18:39:13] "OPTIONS /api/health HTTP/1.1" 200 -
+2025-06-03 18:39:13,809 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 18:39:13] "GET /api/health HTTP/1.1" 200 -
+2025-06-03 18:39:13,811 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 18:39:13] "OPTIONS /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 18:39:13,854 - data.dataset_analyzer - INFO - Comprehensive dashboard data generated successfully
+2025-06-03 18:39:13,854 - __main__ - INFO - Generated comprehensive dashboard overview
+2025-06-03 18:39:13,854 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 18:39:13] "GET /api/dashboard/overview?timeframe=30d HTTP/1.1" 200 -
+2025-06-03 18:39:14,030 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 18:39:14] "GET /api/analytics/wordcloud?type=all&limit=50 HTTP/1.1" 200 -
+2025-06-03 18:39:28,327 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 18:39:28] "OPTIONS /api/sentiment/batch HTTP/1.1" 200 -
+2025-06-03 18:39:28,337 - sentiment.analyzer - INFO - Batch analysis completed: 15 items processed
+2025-06-03 18:39:28,358 - __main__ - INFO - Batch sentiment analysis completed for 15 texts
+2025-06-03 18:39:28,359 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 18:39:28] "POST /api/sentiment/batch HTTP/1.1" 200 -
