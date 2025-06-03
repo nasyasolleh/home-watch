@@ -2,383 +2,384 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community - HomeWatch</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/community.css" rel="stylesheet">
-    <link href="css/comment-modal-fixes.css" rel="stylesheet">
-    <style>
-        /* Additional styles for comments and interactions */
-        .comment {
-            border-bottom: 1px solid #eee;
-            padding: 1rem 0;
-            margin-bottom: 1rem;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <title>Community - HomeWatch</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/community.css" rel="stylesheet">
+  <link href="css/comment-modal-fixes.css" rel="stylesheet">
+  <style>
+    /* Additional styles for comments and interactions */
+    .comment {
+      border-bottom: 1px solid #eee;
+      padding: 1rem 0;
+      margin-bottom: 1rem;
+    }
 
-        .comment:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
+    .comment:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
 
-        .comment-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
+    .comment-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
 
-        .comment-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 0.8rem;
-            margin-right: 0.75rem;
-        }
+    .comment-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 0.8rem;
+      margin-right: 0.75rem;
+    }
 
-        .comment-meta {
-            display: flex;
-            flex-direction: column;
-        }
+    .comment-meta {
+      display: flex;
+      flex-direction: column;
+    }
 
-        .comment-author {
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 0.9rem;
-        }
+    .comment-author {
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+    }
 
-        .comment-time {
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-        }
+    .comment-time {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+    }
 
-        .comment-content {
-            margin-left: 2.5rem;
-            color: var(--text-primary);
-            line-height: 1.5;
-        }
+    .comment-content {
+      margin-left: 2.5rem;
+      color: var(--text-primary);
+      line-height: 1.5;
+    }
 
-        .comment-form {
-            margin-bottom: 2rem;
-            padding: 1rem;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
+    .comment-form {
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
 
-        .comment-form textarea {
-            width: 100%;
-            min-height: 80px;
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            resize: vertical;
-            font-family: inherit;
-            margin-bottom: 0.75rem;
-        }
+    .comment-form textarea {
+      width: 100%;
+      min-height: 80px;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      resize: vertical;
+      font-family: inherit;
+      margin-bottom: 0.75rem;
+    }
 
-        .comment-form textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
-        }
+    .comment-form textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+    }
 
-        .comments-list {
-            max-height: 400px;
-            overflow-y: auto;
-        }
+    .comments-list {
+      max-height: 400px;
+      overflow-y: auto;
+    }
 
-        .action-btn.liked {
-            color: #e74c3c;
-        }
+    .action-btn.liked {
+      color: #e74c3c;
+    }
 
-        .action-btn.liked i {
-            color: #e74c3c;
-        }
+    .action-btn.liked i {
+      color: #e74c3c;
+    }
 
-        .post-actions {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
+    .post-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
 
-        .action-btn {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-        }
+    .action-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
 
-        .action-btn:hover {
-            background: #f1f3f4;
-            color: var(--text-primary);
-        }
+    .action-btn:hover {
+      background: #f1f3f4;
+      color: var(--text-primary);
+    }
 
-        .loading {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-secondary);
-        }
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-secondary);
+    }
 
-        .error {
-            text-align: center;
-            padding: 2rem;
-            color: #e74c3c;
-        }
+    .error {
+      text-align: center;
+      padding: 2rem;
+      color: #e74c3c;
+    }
 
-        .no-posts {
-            text-align: center;
-            padding: 3rem 2rem;
-            color: var(--text-secondary);
-        }
+    .no-posts {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--text-secondary);
+    }
 
-        .no-posts h3 {
-            margin: 1rem 0 0.5rem 0;
-            color: var(--text-primary);
-        }
+    .no-posts h3 {
+      margin: 1rem 0 0.5rem 0;
+      color: var(--text-primary);
+    }
 
-        .no-posts p {
-            margin-bottom: 2rem;
-        }
+    .no-posts p {
+      margin-bottom: 2rem;
+    }
 
-        /* Notification styles */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            color: white;
-            font-weight: 500;
-            z-index: 10000;
-            transform: translateX(400px);
-            transition: transform 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
+    /* Notification styles */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      color: white;
+      font-weight: 500;
+      z-index: 10000;
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
 
-        .notification.show {
-            transform: translateX(0);
-        }
+    .notification.show {
+      transform: translateX(0);
+    }
 
-        .notification.success {
-            background: #10b981;
-        }
+    .notification.success {
+      background: #10b981;
+    }
 
-        .notification.error {
-            background: #ef4444;
-        }
+    .notification.error {
+      background: #ef4444;
+    }
 
-        .notification.info {
-            background: #3b82f6;
-        }
+    .notification.info {
+      background: #3b82f6;
+    }
 
-        /* Loading skeleton styles */
-        .post-skeleton {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
+    /* Loading skeleton styles */
+    .post-skeleton {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
 
-        .skeleton-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
+    .skeleton-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
 
-        .skeleton-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 1rem;
-        }
+    .skeleton-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 1rem;
+    }
 
-        .skeleton-text {
-            height: 16px;
-            border-radius: 4px;
-            margin-bottom: 0.5rem;
-        }
+    .skeleton-text {
+      height: 16px;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+    }
 
-        .skeleton-text.short {
-            width: 30%;
-        }
+    .skeleton-text.short {
+      width: 30%;
+    }
 
-        .skeleton-text.medium {
-            width: 60%;
-        }
+    .skeleton-text.medium {
+      width: 60%;
+    }
 
-        .skeleton-text.long {
-            width: 90%;
-        }
+    .skeleton-text.long {
+      width: 90%;
+    }
 
-        .loading-skeleton {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-        }
+    .loading-skeleton {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+    }
 
-        @keyframes loading {
-            0% {
-                background-position: 200% 0;
-            }
+    @keyframes loading {
+      0% {
+        background-position: 200% 0;
+      }
 
-            100% {
-                background-position: -200% 0;
-            }
-        }
+      100% {
+        background-position: -200% 0;
+      }
+    }
 
-        /* Modal improvements */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
-        }
+    /* Modal improvements */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+    }
 
-        .modal-content {
-            background-color: white;
-            margin: 5% auto;
-            padding: 2rem;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-            position: relative;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
+    .modal-content {
+      background-color: white;
+      margin: 5% auto;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
 
-        .modal-content.large {
-            max-width: 800px;
-        }
+    .modal-content.large {
+      max-width: 800px;
+    }
 
-        .close {
-            position: absolute;
-            right: 1rem;
-            top: 1rem;
-            font-size: 1.5rem;
-            font-weight: bold;
-            cursor: pointer;
-            color: var(--text-secondary);
-            transition: color 0.2s ease;
-        }
+    .close {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: color 0.2s ease;
+    }
 
-        .close:hover {
-            color: var(--text-primary);
-        }
+    .close:hover {
+      color: var(--text-primary);
+    }
 
-        /* Responsive improvements */
-        @media (max-width: 768px) {
-            .modal-content {
-                margin: 10% auto;
-                width: 95%;
-                padding: 1.5rem;
-            }
+    /* Responsive improvements */
+    @media (max-width: 768px) {
+      .modal-content {
+        margin: 10% auto;
+        width: 95%;
+        padding: 1.5rem;
+      }
 
-            .notification {
-                right: 10px;
-                left: 10px;
-                transform: translateY(-100px);
-            }
+      .notification {
+        right: 10px;
+        left: 10px;
+        transform: translateY(-100px);
+      }
 
-            .notification.show {
-                transform: translateY(0);
-            }
-        }
-    </style>
+      .notification.show {
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" style="text-decoration: none;">
-                <div class="nav-logo">
-                    <i class="fas fa-home"></i>
-                    <span>HomeWatch</span>
-                </div>
-            </a>
-
-            <div class="nav-menu">
-                <a href="dashboard.html" class="nav-link">Dashboard</a>
-                <a href="community.html" class="nav-link active">Community</a>
-                <a href="survey.html" class="nav-link">Surveys</a>
-                <a href="resources.html" class="nav-link">Resources</a>
-                <a href="profile.html" class="nav-link">Profile</a>
-                <div class="auth-buttons">
-                    <button class="btn btn-outline" onclick="authManager.logout()">Logout</button>
-                </div>
-            </div>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" style="text-decoration: none;">
+        <div class="nav-logo">
+          <i class="fas fa-home"></i>
+          <span>HomeWatch</span>
         </div>
-    </nav>
+      </a>
 
-    <!-- Community Content -->
-    <main class="community">
-        <div class="container">
-            <!-- Community Header -->
-            <div class="community-header">
-                <h1>Community Discussion</h1>
-                <p>Join the conversation about Malaysia's affordable housing policies</p>
-                <button class="btn btn-primary" onclick="showNewPostModal()">
-                    <i class="fas fa-plus"></i> New Post
-                </button>
+      <div class="nav-menu">
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+        <a href="community.html" class="nav-link active">Community</a>
+        <a href="survey.html" class="nav-link">Surveys</a>
+        <a href="resources.html" class="nav-link">Resources</a>
+        <a href="profile.html" class="nav-link">Profile</a>
+        <div class="auth-buttons">
+          <button class="btn btn-outline" onclick="authManager.logout()">Logout</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Community Content -->
+  <main class="community">
+    <div class="container">
+      <!-- Community Header -->
+      <div class="community-header">
+        <h1>Community Discussion</h1>
+        <p>Join the conversation about Malaysia's affordable housing policies</p>
+        <button class="btn btn-primary" onclick="showNewPostModal()">
+          <i class="fas fa-plus"></i> New Post
+        </button>
+      </div>
+
+      <!-- Content Area -->
+      <div class="content-area">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+          <!-- Categories -->
+          <div class="sidebar-section">
+            <h3>Categories</h3>
+            <div class="category-list">
+              <button class="category-item active" data-category="all">
+                <i class="fas fa-home"></i> All Discussions
+              </button>
+              <button class="category-item" data-category="pr1ma">
+                <i class="fas fa-building"></i> PR1MA
+              </button>
+              <button class="category-item" data-category="myfirst">
+                <i class="fas fa-key"></i> MyFirst Home
+              </button>
+              <button class="category-item" data-category="ppr">
+                <i class="fas fa-users"></i> PPR Housing
+              </button>
+              <button class="category-item" data-category="rumawip">
+                <i class="fas fa-map-marker-alt"></i> RUMAWIP
+              </button>
+              <button class="category-item" data-category="ideas">
+                <i class="fas fa-lightbulb"></i> Policy Ideas
+              </button>
+              <button class="category-item" data-category="general">
+                <i class="fas fa-comments"></i> General
+              </button>
             </div>
+          </div>
 
-            <!-- Content Area -->
-            <div class="content-area">
-                <!-- Sidebar -->
-                <aside class="sidebar">
-                    <!-- Categories -->
-                    <div class="sidebar-section">
-                        <h3>Categories</h3>
-                        <div class="category-list">
-                            <button class="category-item active" data-category="all">
-                                <i class="fas fa-home"></i> All Discussions
-                            </button>
-                            <button class="category-item" data-category="pr1ma">
-                                <i class="fas fa-building"></i> PR1MA
-                            </button>
-                            <button class="category-item" data-category="myfirst">
-                                <i class="fas fa-key"></i> MyFirst Home
-                            </button>
-                            <button class="category-item" data-category="ppr">
-                                <i class="fas fa-users"></i> PPR Housing
-                            </button>
-                            <button class="category-item" data-category="rumawip">
-                                <i class="fas fa-map-marker-alt"></i> RUMAWIP
-                            </button>
-                            <button class="category-item" data-category="ideas">
-                                <i class="fas fa-lightbulb"></i> Policy Ideas
-                            </button>
-                            <button class="category-item" data-category="general">
-                                <i class="fas fa-comments"></i> General
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Community Stats -->
-                    <!-- <div class="sidebar-section">
+          <!-- Community Stats -->
+          <!-- <div class="sidebar-section">
                         <h3>Community Stats</h3>
                         <div class="stats-grid">
                             <div class="stat-item">
@@ -395,203 +396,203 @@
                             </div>
                         </div>
                     </div> -->
-                </aside>
+        </aside>
 
-                <!-- Main Content -->
-                <div class="main-content">
-                    <!-- Filter and Sort -->
-                    <div class="content-controls">
-                        <div class="filters">
-                            <button class="filter-btn active" data-filter="recent">
-                                <i class="fas fa-clock"></i> Recent
-                            </button>
-                            <button class="filter-btn" data-filter="popular">
-                                <i class="fas fa-heart"></i> Popular
-                            </button>
-                            <button class="filter-btn" data-filter="trending">
-                                <i class="fas fa-fire"></i> Trending
-                            </button>
-                        </div>
-                        <div class="search-box">
-                            <input type="text" placeholder="Search discussions..." id="searchInput">
-                            <i class="fas fa-search"></i>
-                        </div>
-                    </div>
-
-                    <!-- Discussion Feed -->
-                    <div class="discussion-feed" id="discussionFeed">
-                        <!-- Posts will be loaded here -->
-                        <div class="loading">Loading discussions...</div>
-                    </div>
-
-                    <!-- Load More -->
-                    <div class="load-more">
-                        <button class="btn btn-outline" onclick="loadMorePosts()">
-                            <i class="fas fa-plus-circle"></i> Load More Posts
-                        </button>
-                    </div>
-                </div>
+        <!-- Main Content -->
+        <div class="main-content">
+          <!-- Filter and Sort -->
+          <div class="content-controls">
+            <div class="filters">
+              <button class="filter-btn active" data-filter="recent">
+                <i class="fas fa-clock"></i> Recent
+              </button>
+              <button class="filter-btn" data-filter="popular">
+                <i class="fas fa-heart"></i> Popular
+              </button>
+              <button class="filter-btn" data-filter="trending">
+                <i class="fas fa-fire"></i> Trending
+              </button>
             </div>
-        </div>
-    </main>
-
-    <!-- New Post Modal -->
-    <div id="newPostModal" class="modal">
-        <div class="modal-content large">
-            <span class="close" onclick="closeModal('newPostModal')">&times;</span>
-            <h2><i class="fas fa-edit"></i> Create New Post</h2>
-            <form id="newPostForm">
-                <div class="form-group">
-                    <label for="postTitle">
-                        <i class="fas fa-heading"></i> Title
-                    </label>
-                    <input type="text" id="postTitle" placeholder="What's your housing topic?" required maxlength="200">
-                    <small class="form-help">Choose a clear, descriptive title for your post</small>
-                </div>
-                <div class="form-group">
-                    <label for="postCategory">
-                        <i class="fas fa-tag"></i> Category
-                    </label>
-                    <select id="postCategory" required>
-                        <option value="">Select a category</option>
-                        <option value="pr1ma">PR1MA</option>
-                        <option value="myfirst">MyFirst Home</option>
-                        <option value="ppr">PPR Housing</option>
-                        <option value="rumawip">RUMAWIP</option>
-                        <option value="ideas">Policy Ideas</option>
-                        <option value="general">General Discussion</option>
-                    </select>
-                    <small class="form-help">Choose the most relevant category for your post</small>
-                </div>
-                <div class="form-group">
-                    <label for="postContent">
-                        <i class="fas fa-align-left"></i> Content
-                    </label>
-                    <textarea id="postContent" rows="8"
-                        placeholder="Share your thoughts, experiences, or questions about affordable housing in Malaysia..."
-                        required maxlength="2000"></textarea>
-                    <small class="form-help">Be detailed and helpful. Your experience could help others!</small>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-outline" onclick="closeModal('newPostModal')">
-                        <i class="fas fa-times"></i> Cancel
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-paper-plane"></i> Post Discussion
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Make sure this modal exists in your community.html -->
-    <!-- Updated Post Detail Modal -->
-    <div id="postDetailModal" class="modal">
-        <div class="modal-content large">
-            <span class="close" onclick="closeModal('postDetailModal')" title="Close">&times;</span>
-            <div id="postDetailContent">
-                <!-- Post detail will be loaded here -->
-                <div class="loading">Loading post details...</div>
+            <div class="search-box">
+              <input type="text" placeholder="Search discussions..." id="searchInput">
+              <i class="fas fa-search"></i>
             </div>
+          </div>
+
+          <!-- Discussion Feed -->
+          <div class="discussion-feed" id="discussionFeed">
+            <!-- Posts will be loaded here -->
+            <div class="loading">Loading discussions...</div>
+          </div>
+
+          <!-- Load More -->
+          <div class="load-more">
+            <button class="btn btn-outline" onclick="loadMorePosts()">
+              <i class="fas fa-plus-circle"></i> Load More Posts
+            </button>
+          </div>
         </div>
+      </div>
     </div>
+  </main>
 
-    <!-- Utility Functions -->
-    <script>
-        // Modal utility functions
-        function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
+  <!-- New Post Modal -->
+  <div id="newPostModal" class="modal">
+    <div class="modal-content large">
+      <span class="close" onclick="closeModal('newPostModal')">&times;</span>
+      <h2><i class="fas fa-edit"></i> Create New Post</h2>
+      <form id="newPostForm">
+        <div class="form-group">
+          <label for="postTitle">
+            <i class="fas fa-heading"></i> Title
+          </label>
+          <input type="text" id="postTitle" placeholder="What's your housing topic?" required maxlength="200">
+          <small class="form-help">Choose a clear, descriptive title for your post</small>
+        </div>
+        <div class="form-group">
+          <label for="postCategory">
+            <i class="fas fa-tag"></i> Category
+          </label>
+          <select id="postCategory" required>
+            <option value="">Select a category</option>
+            <option value="pr1ma">PR1MA</option>
+            <option value="myfirst">MyFirst Home</option>
+            <option value="ppr">PPR Housing</option>
+            <option value="rumawip">RUMAWIP</option>
+            <option value="ideas">Policy Ideas</option>
+            <option value="general">General Discussion</option>
+          </select>
+          <small class="form-help">Choose the most relevant category for your post</small>
+        </div>
+        <div class="form-group">
+          <label for="postContent">
+            <i class="fas fa-align-left"></i> Content
+          </label>
+          <textarea id="postContent" rows="8"
+            placeholder="Share your thoughts, experiences, or questions about affordable housing in Malaysia..."
+            required maxlength="2000"></textarea>
+          <small class="form-help">Be detailed and helpful. Your experience could help others!</small>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline" onclick="closeModal('newPostModal')">
+            <i class="fas fa-times"></i> Cancel
+          </button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-paper-plane"></i> Post Discussion
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Make sure this modal exists in your community.html -->
+  <!-- Updated Post Detail Modal -->
+  <div id="postDetailModal" class="modal">
+    <div class="modal-content large">
+      <span class="close" onclick="closeModal('postDetailModal')" title="Close">&times;</span>
+      <div id="postDetailContent">
+        <!-- Post detail will be loaded here -->
+        <div class="loading">Loading post details...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Utility Functions -->
+  <script>
+    // Modal utility functions
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function (event) {
+      const modals = document.querySelectorAll('.modal');
+      modals.forEach(modal => {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+          document.body.style.overflow = 'auto';
+        }
+      });
+    }
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        const openModal = document.querySelector('.modal[style*="block"]');
+        if (openModal) {
+          openModal.style.display = 'none';
+          document.body.style.overflow = 'auto';
+        }
+      }
+    });
+
+    // Form validation helpers
+    function validateForm(formId) {
+      const form = document.getElementById(formId);
+      const inputs = form.querySelectorAll('input[required], textarea[required], select[required]');
+      let isValid = true;
+
+      inputs.forEach(input => {
+        if (!input.value.trim()) {
+          input.classList.add('error');
+          isValid = false;
+        } else {
+          input.classList.remove('error');
+        }
+      });
+
+      return isValid;
+    }
+
+    // Character counter for textareas
+    document.addEventListener('DOMContentLoaded', function () {
+      const textareas = document.querySelectorAll('textarea[maxlength]');
+      textareas.forEach(textarea => {
+        const maxLength = textarea.getAttribute('maxlength');
+        const counter = document.createElement('div');
+        counter.className = 'char-counter';
+        counter.style.cssText = 'text-align: right; font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.25rem;';
+
+        function updateCounter() {
+          const remaining = maxLength - textarea.value.length;
+          counter.textContent = `${remaining} characters remaining`;
+          counter.style.color = remaining < 50 ? '#e74c3c' : 'var(--text-secondary)';
         }
 
-        // Close modal when clicking outside
-        window.onclick = function (event) {
-            const modals = document.querySelectorAll('.modal');
-            modals.forEach(modal => {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                }
-            });
-        }
+        textarea.addEventListener('input', updateCounter);
+        textarea.parentNode.appendChild(counter);
+        updateCounter();
+      });
+    });
+  </script>
 
-        // Close modal with Escape key
-        document.addEventListener('keydown', function (event) {
-            if (event.key === 'Escape') {
-                const openModal = document.querySelector('.modal[style*="block"]');
-                if (openModal) {
-                    openModal.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                }
-            }
-        });
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/api-service.js"></script>
+  <script type="module" src="js/firebase-config.js"></script>
+  <script type="module" src="js/auth.js"></script>
+  <script type="module" src="js/community.js"></script>
+  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/comment-fixes.js"></script>
+  <script>
+    function showPostDetail(postId) {
+      // Load post detail in modal
+      const modal = document.getElementById('postDetailModal');
+      const content = document.getElementById('postDetailContent');
 
-        // Form validation helpers
-        function validateForm(formId) {
-            const form = document.getElementById(formId);
-            const inputs = form.querySelectorAll('input[required], textarea[required], select[required]');
-            let isValid = true;
+      // Show loading
+      content.innerHTML = '<div class="loading">Loading post...</div>';
+      modal.style.display = 'block';
+      document.body.style.overflow = 'hidden';
 
-            inputs.forEach(input => {
-                if (!input.value.trim()) {
-                    input.classList.add('error');
-                    isValid = false;
-                } else {
-                    input.classList.remove('error');
-                }
-            });
-
-            return isValid;
-        }
-
-        // Character counter for textareas
-        document.addEventListener('DOMContentLoaded', function () {
-            const textareas = document.querySelectorAll('textarea[maxlength]');
-            textareas.forEach(textarea => {
-                const maxLength = textarea.getAttribute('maxlength');
-                const counter = document.createElement('div');
-                counter.className = 'char-counter';
-                counter.style.cssText = 'text-align: right; font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.25rem;';
-
-                function updateCounter() {
-                    const remaining = maxLength - textarea.value.length;
-                    counter.textContent = `${remaining} characters remaining`;
-                    counter.style.color = remaining < 50 ? '#e74c3c' : 'var(--text-secondary)';
-                }
-
-                textarea.addEventListener('input', updateCounter);
-                textarea.parentNode.appendChild(counter);
-                updateCounter();
-            });
-        });
-    </script>
-
-    <!-- Scripts -->
-    <script src="js/config.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/api-service.js"></script>
-    <script type="module" src="js/firebase-config.js"></script>
-    <script type="module" src="js/auth.js"></script>
-    <script type="module" src="js/community.js"></script>
-    <script type="module" src="js/main.js"></script>
-    <script type="module" src="js/comment-fixes.js"></script>
-    <script>
-        function showPostDetail(postId) {
-            // Load post detail in modal
-            const modal = document.getElementById('postDetailModal');
-            const content = document.getElementById('postDetailContent');
-
-            // Show loading
-            content.innerHTML = '<div class="loading">Loading post...</div>';
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-
-            // Simulate loading post detail
-            setTimeout(() => {
-                content.innerHTML = `
+      // Simulate loading post detail
+      setTimeout(() => {
+        content.innerHTML = `
             <div class="post-detail">
                 <div class="post-header">
                     <div class="post-meta">
@@ -656,51 +657,51 @@
                 </div>
             </div>
         `;
-            }, 1000);
-        }
-    </script>
-    <!-- Add this script section before the closing body tag -->
-    <script>
-        // Enhanced modal management
-        function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.classList.remove('show');
-                setTimeout(() => {
-                    modal.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                }, 300);
-            }
-        }
+      }, 1000);
+    }
+  </script>
+  <!-- Add this script section before the closing body tag -->
+  <script>
+    // Enhanced modal management
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.remove('show');
+        setTimeout(() => {
+          modal.style.display = 'none';
+          document.body.style.overflow = 'auto';
+        }, 300);
+      }
+    }
 
-        // Improved click outside to close
-        window.onclick = function (event) {
-            const modals = document.querySelectorAll('.modal');
-            modals.forEach(modal => {
-                if (event.target === modal) {
-                    const modalId = modal.id;
-                    closeModal(modalId);
-                }
-            });
+    // Improved click outside to close
+    window.onclick = function (event) {
+      const modals = document.querySelectorAll('.modal');
+      modals.forEach(modal => {
+        if (event.target === modal) {
+          const modalId = modal.id;
+          closeModal(modalId);
         }
+      });
+    }
 
-        // Enhanced escape key handling
-        document.addEventListener('keydown', function (event) {
-            if (event.key === 'Escape') {
-                const openModal = document.querySelector('.modal.show');
-                if (openModal) {
-                    closeModal(openModal.id);
-                }
-            }
-        });
+    // Enhanced escape key handling
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        const openModal = document.querySelector('.modal.show');
+        if (openModal) {
+          closeModal(openModal.id);
+        }
+      }
+    });
 
-        // Prevent modal content clicks from closing modal
-        document.addEventListener('click', function (event) {
-            if (event.target.closest('.modal-content')) {
-                event.stopPropagation();
-            }
-        });
-    </script>
+    // Prevent modal content clicks from closing modal
+    document.addEventListener('click', function (event) {
+      if (event.target.closest('.modal-content')) {
+        event.stopPropagation();
+      }
+    });
+  </script>
 </body>
 
 </html>
