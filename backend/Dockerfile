@@ -1,8 +1,8 @@
-FROM python:3
+FROM --platform=linux/amd64 python:3.11-slim-bullseye AS build
 
 WORKDIR /usr/src/app
 
-COPY backend/requirements.txt ./
+COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
