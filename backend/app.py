@@ -19,6 +19,7 @@ import os
 import logging
 from datetime import datetime, timedelta, timezone
 import json
+import sqlite3
 
 # Import custom modules
 from sentiment.analyzer import SentimentAnalyzer
@@ -863,3 +864,4 @@ if __name__ == '__main__':
         debug=debug,
         threaded=True
     )
+
